@@ -35,8 +35,8 @@ public class MessageListener {
             }
             return "success";
         }else{
-            System.out.println("idk");
-            return "idk";
+            // Reserved for different kind of messages
+            return "failure";
         }
 
 

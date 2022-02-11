@@ -27,7 +27,7 @@ public class Example {
             TextTerminal terminal = textIO.getTextTerminal();
 
             AnonymousChatImpl peer =
-                    new AnonymousChatImpl(id, master, new MessageListener(id));
+                    new AnonymousChatImpl(id, master, new MessageListener(id), 4000);
 
             //TEXTIO
             terminal.getProperties().setPromptColor("cyan");
