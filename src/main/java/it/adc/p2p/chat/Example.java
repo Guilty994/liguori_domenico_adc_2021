@@ -15,7 +15,7 @@ public class Example {
     @Option(name="-id", aliases="--identifierpeer", usage="the unique identifier for this peer", required=true)
     private static int id;
 
-    public static void main(String[] args) throws NumberFormatException, Exception {
+    public static void main(String[] args) throws Exception {
 
         Example example = new Example();
         final CmdLineParser parser = new CmdLineParser(example);

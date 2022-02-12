@@ -3,3 +3,16 @@ Anonymous Chat
 
 
 The MD5 hash for domenicoliguori-07 is : f298d34696d8dd673915a1bb95dfd097
+
+
+
+
+Docker usage:
+> docker build -t [imagename] . 
+
+
+Master bootstrap
+> docker run -e ID=0 MASTERIP="127.0.0.1" -it [imagename]
+
+Peer bootstrap
+> docker run -e ID=[peer id] MASTERIP="172.17.0.2" -it [imagename]
