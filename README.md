@@ -79,11 +79,11 @@ Check the official docker [get-started page](https://docs.docker.com/get-started
 ### Installation
 
 1. Clone the repo locally on your machine
-   ```sh
+   ```
    git clone https://github.com/Guilty994/liguori_domenico_adc_2021.git
    ```
 2. To build the Docker image run
-   ```sh
+   ```
    docker build --no-cache -t anonchat .
    ```
 
@@ -94,16 +94,16 @@ Check the official docker [get-started page](https://docs.docker.com/get-started
 ## Usage
 
 1. Once the image is built, start a new master peer
-   ```sh
+   ```
    docker run --name MASTER -e ID=0 -e MASTERIP="127.0.0.1" -it anonchat
    ```
 2. Check the _@container_address_
-     ```sh
+     ```
    docker ps
    docker inspect <container ID>
    ```
 3. Now you can start a new peers using the _@container_address_ as MASTERID and varying the unique _@peerid_
-    ```sh
+    ```
    docker run --name PEER_[peer id] -e ID=@peerid -e MASTERIP="@container_address" -it anonchat
    ```
 <p align="right">(<a href="#top">back to top</a>)</p>
