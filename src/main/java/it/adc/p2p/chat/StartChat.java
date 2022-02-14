@@ -1,5 +1,6 @@
 package it.adc.p2p.chat;
 
+import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.kohsuke.args4j.CmdLineException;
@@ -16,8 +17,8 @@ public class StartChat {
 
     public static void main(String[] args) throws Exception {
 
-        var startChat = new StartChat();
-        final CmdLineParser parser = new CmdLineParser(startChat);
+        StartChat example = new StartChat();
+        final CmdLineParser parser = new CmdLineParser(example);
         try {
             parser.parseArgument(args);
 
