@@ -59,6 +59,11 @@ Further information regarding this assignment can be found at the [ADC class pag
 
 ### Project structure
 
+TODO
+TODO
+TODO
+
+
 
 ### Built With
 
@@ -98,7 +103,7 @@ Check the official docker [get-started page](https://docs.docker.com/get-started
    docker run --name MASTER -e ID=0 -e MASTERIP="127.0.0.1" -it anonchat
    ```
 2. Check the _@container_address_
-     ```
+   ```
    docker ps
    docker inspect <container ID>
    ```
@@ -111,7 +116,12 @@ Check the official docker [get-started page](https://docs.docker.com/get-started
 ## Acknowledgments
 
 Additional libraries used:
+TODO
+TODO
+TODO
 
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
