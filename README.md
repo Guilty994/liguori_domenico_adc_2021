@@ -38,6 +38,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
+<li><a href="#akn">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -46,6 +47,10 @@
 ## About The Project
 
 This project is the implementation of an anonymous chat that runs over a P2P network, built through the support of the framework/library [TomP2P](https://tomp2p.net/), for the ADC class at the [Università degli Studi di Salerno](https://www.unisa.it/).
+
+The main requirement for this project were asynchronous and anonymous communication. We were able to achieve those requirements through the usage of the **publish/subscribe paradigm**, a well known paradigm in the asynchronous communication literature.
+
+
 
 Further information regarding this assignment can be found at the [ADC class page](https://spagnuolocarmine.github.io/adc.html).
 
@@ -68,7 +73,7 @@ Further information regarding this assignment can be found at the [ADC class pag
 
 ### Prerequisites
 
-**Docker** must be installed on your machine, in order to run this project.
+**Docker** must be installed on your machine in order to run this project.
 Check the official docker [get-started page](https://docs.docker.com/get-started/) for more information.
 
 ### Installation
@@ -77,7 +82,7 @@ Check the official docker [get-started page](https://docs.docker.com/get-started
    ```sh
    git clone https://github.com/Guilty994/liguori_domenico_adc_2021.git
    ```
-2. To build the project Docker image run
+2. To build the Docker image run
    ```sh
    docker build --no-cache -t anonchat .
    ```
@@ -97,12 +102,15 @@ Check the official docker [get-started page](https://docs.docker.com/get-started
    docker ps
    docker inspect <container ID>
    ```
-3. Now you can start a new peer using the _@container_address_ as MASTERID and varying the unique _@peerid_ for each peer
+3. Now you can start a new peers using the _@container_address_ as MASTERID and varying the unique _@peerid_
     ```sh
    docker run --name PEER_[peer id] -e ID=@peerid -e MASTERIP="@container_address" -it anonchat
    ```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## Acknowledgments
+
+Additional libraries used:
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
