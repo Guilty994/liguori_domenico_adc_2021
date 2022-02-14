@@ -80,8 +80,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.5.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>10</source>
+                    <target>10</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -97,7 +97,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        it.adc.p2p.chat.Example
+                                        it.adc.p2p.chat.StartChat
                                     </mainClass>
                                 </manifest>
                             </archive>

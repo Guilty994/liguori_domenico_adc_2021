@@ -1,13 +1,12 @@
 package it.adc.p2p.chat;
 
-import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
-public class Example {
+public class StartChat {
 
     @Option(name="-m", aliases="--masterip", usage="the master peer ip address", required=true)
     private static String master;
@@ -17,17 +16,16 @@ public class Example {
 
     public static void main(String[] args) throws Exception {
 
-        Example example = new Example();
-        final CmdLineParser parser = new CmdLineParser(example);
+        var startChat = new StartChat();
+        final CmdLineParser parser = new CmdLineParser(startChat);
         try {
             parser.parseArgument(args);
 
             //TEXTIO
-            TextIO textIO = TextIoFactory.getTextIO();
-            TextTerminal terminal = textIO.getTextTerminal();
+            var textIO = TextIoFactory.getTextIO();
+            var terminal = textIO.getTextTerminal();
 
-            AnonymousChatImpl peer =
-                    new AnonymousChatImpl(id, master, new MessageListener(id), 4000);
+            var peer = new AnonymousChatImpl(id, master, new MessageListener(id), 4000);
 
             //TEXTIO
             terminal.getProperties().setPromptColor("cyan");

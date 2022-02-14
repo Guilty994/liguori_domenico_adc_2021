@@ -11,16 +11,46 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestAnonymousChat {
 
     @Test
-    @DisplayName("Testing creation of room that doesn't exist yet")
+    @DisplayName("Master bootstrapping")
+    void testCase_MasterBootstrapping(){
+
+        assertAll("Bootstrapping master to an invalid IP",
+                ()-> assertThrows(Exception.class,
+                        ()->{
+                            new AnonymousChatImpl(0, "1.1.1.1", new MessageListener(0), 9000);
+                        }),
+                ()-> assertThrows(Exception.class,
+                        ()->{
+                            new AnonymousChatImpl(0, "2.2.2.2", new MessageListener(0), 9000);
+                        })
+        );
+
+        assertAll("Bootstrapping to an invalid master IP",
+                ()-> assertThrows(Exception.class,
+                        ()->{
+                            new AnonymousChatImpl(1, "1.1.1.1", new MessageListener(1), 9000);
+                        }),
+                ()-> assertThrows(Exception.class,
+                        ()->{
+                            new AnonymousChatImpl(2, "1.1.1.1", new MessageListener(2), 9000);
+                        }),
+                ()-> assertThrows(Exception.class,
+                        ()->{
+                            new AnonymousChatImpl(3, "1.1.1.1", new MessageListener(3), 9000);
+                        })
+        );
+    }
+
+    @Test
+    @DisplayName("Creation of room that doesn't exist yet")
     void testCase_CreateNonExistingRoom() {
-        AnonymousChatImpl peer0, peer1, peer2, peer3;
 
         try{
             // Generating peers
-            peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 4000);
-            peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 4000);
-            peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 4000);
-            peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 4000);
+            var peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 4000);
+            var peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 4000);
+            var peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 4000);
+            var peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 4000);
 
             AnonymousChatImpl[] peers = {peer0, peer1, peer2, peer3};
             String[] rooms = {"TEST_ROOM_0", "TEST_ROOM_1", "TEST_ROOM_2", "TEST_ROOM_3"};
@@ -41,15 +71,15 @@ public class TestAnonymousChat {
     }
 
     @Test
-    @DisplayName("Testing creation of rooms that already exist")
+    @DisplayName("Creation of rooms that already exist")
     void testCase_CreateExistingRoom(){
-        AnonymousChatImpl peer0, peer1, peer2, peer3;
+
         try{
             // Generating peers
-            peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 5000);
-            peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 5000);
-            peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 5000);
-            peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 5000);
+            var peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 5000);
+            var peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 5000);
+            var peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 5000);
+            var peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 5000);
 
             AnonymousChatImpl[] peers = {peer0, peer1, peer2, peer3};
             String[] rooms = {"TEST_ROOM_0", "TEST_ROOM_1", "TEST_ROOM_2", "TEST_ROOM_3"};
@@ -74,16 +104,15 @@ public class TestAnonymousChat {
 
 
     @Test
-    @DisplayName("Testing joining existing rooms and joining non-existing rooms")
+    @DisplayName("Joining existing rooms and joining non-existing rooms")
     void testCase_JoinRoom(){
-        AnonymousChatImpl peer0, peer1, peer2, peer3;
 
         try {
             // Generating peers
-            peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 6000);
-            peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 6000);
-            peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 6000);
-            peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 6000);
+            var peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 6000);
+            var peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 6000);
+            var peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 6000);
+            var peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 6000);
 
             AnonymousChatImpl[] peers = {peer0, peer1, peer2, peer3};
             String[] rooms = {"TEST_ROOM_0", "TEST_ROOM_1", "TEST_ROOM_2", "TEST_ROOM_3"};
@@ -120,16 +149,15 @@ public class TestAnonymousChat {
 
 
     @Test
-    @DisplayName("Testing message sending")
+    @DisplayName("Message sending")
     void testCase_SendMessage(){
-        AnonymousChatImpl peer0, peer1, peer2, peer3;
 
         try{
             // Generating peers
-            peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 7000);
-            peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 7000);
-            peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 7000);
-            peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 7000);
+            var peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 7000);
+            var peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 7000);
+            var peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 7000);
+            var peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 7000);
 
             AnonymousChatImpl[] peers = {peer0, peer1, peer2, peer3};
             String[] rooms = {"TEST_ROOM_0", "TEST_ROOM_1", "TEST_ROOM_2", "TEST_ROOM_3"};
@@ -175,16 +203,15 @@ public class TestAnonymousChat {
 
 
     @Test
+    @DisplayName("Room leaving procedure")
     void testCase_LeaveRoom(){
-
-        AnonymousChatImpl peer0, peer1, peer2, peer3;
 
         try {
             // Generating peers
-            peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 8000);
-            peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 8000);
-            peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 8000);
-            peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 8000);
+            var peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 8000);
+            var peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 8000);
+            var peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 8000);
+            var peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 8000);
 
             AnonymousChatImpl[] peers = {peer0, peer1, peer2, peer3};
             String[] rooms = {"TEST_ROOM_0", "TEST_ROOM_1", "TEST_ROOM_2", "TEST_ROOM_3"};

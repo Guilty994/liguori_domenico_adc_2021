@@ -13,18 +13,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 
-//TODO
-/*
-    -- delete room when i'm the last
-    - non ricreare room se esiste già
-    - dockerize e documentazione
- */
-
 public class AnonymousChatImpl implements AnonymousChat{
 
     final private Peer peer;
     final private PeerDHT _dht;
-    private int DEFAULT_MASTER_PORT=4000;
+    private int DEFAULT_MASTER_PORT;
 
 
     // List of the room this peer joined
