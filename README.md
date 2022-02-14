@@ -28,6 +28,7 @@
       <a href="#about-the-project">About this project</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
+        <li><a href="#project-structure">Project Structure</a></li>
       </ul>
     </li>
     <li>
@@ -38,7 +39,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-<li><a href="#akn">Acknowledgments</a></li>
+<li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
