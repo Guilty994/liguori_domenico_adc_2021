@@ -1,5 +1,6 @@
 package it.adc.p2p.chat;
 
+import it.adc.p2p.chat.Exceptions.FailedMasterPeerBootstrap;
 import net.tomp2p.dht.*;
 import net.tomp2p.futures.FutureBootstrap;
 import net.tomp2p.futures.FutureDirect;
@@ -17,43 +18,39 @@ public class AnonymousChatImpl implements AnonymousChat{
 
     final private Peer peer;
     final private PeerDHT _dht;
-    private int DEFAULT_MASTER_PORT;
+    private int MASTER_PORT;
 
 
     // List of the room this peer joined
     final private ArrayList<String> room_list = new ArrayList<>();
 
     public AnonymousChatImpl(int _id, String _master_peer, final MessageListener _listener, int _master_port) throws Exception {
-        DEFAULT_MASTER_PORT = _master_port;
+        MASTER_PORT = _master_port;
 
         //Create the peer, set his port to 4000+_id, add that peer to the DHT
-        peer= new PeerBuilder(Number160.createHash(_id)).ports(DEFAULT_MASTER_PORT+_id).start();
-
+        peer= new PeerBuilder(Number160.createHash(_id)).ports(MASTER_PORT+_id).start();
         _dht = new PeerBuilderDHT(peer).start();
 
-        //Bootstrap of ther peer on master address
-        FutureBootstrap fb = peer.bootstrap().inetAddress(InetAddress.getByName(_master_peer)).ports(DEFAULT_MASTER_PORT).start();
+        //Bootstrap of the peers on master address
+        FutureBootstrap fb = peer.bootstrap().inetAddress(InetAddress.getByName(_master_peer)).ports(MASTER_PORT).start();
         fb.awaitUninterruptibly();
 
         //If bootstrap is successful, start discover network
         if(fb.isSuccess()) {
             peer.discover().peerAddress(fb.bootstrapTo().iterator().next()).start().awaitUninterruptibly();
         }else {
-            throw new Exception("Error in master peer bootstrap.");
+            throw new FailedMasterPeerBootstrap();
         }
 
         // Update listener info
-
         _listener.setHash(peer.peerID());
 
         //Wait for messages to be received
         peer.objectDataReply((sender, request) -> _listener.parseMessage(sender, request));
-
-
     }
 
     @Override
-    public boolean createRoom(String _room_name) {//TODO fix can't create if already created
+    public boolean createRoom(String _room_name) {
         try {
             FutureGet futureGet = _dht.get(Number160.createHash(_room_name)).start();
             futureGet.awaitUninterruptibly();

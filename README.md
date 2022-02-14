@@ -11,7 +11,7 @@ Docker usage:
 
 
 Master bootstrap
-> docker run --NAME MASTER -e ID=0 -e MASTERIP="127.0.0.1" -it [imagename]
+> docker run --name MASTER -e ID=0 -e MASTERIP="127.0.0.1" -it [imagename]
 
 Peer bootstrap
-> docker run -e ID=[peer id] -e MASTERIP="172.17.0.2" -it [imagename]
+> docker run --name PEER_[peer id] -e ID=[peer id] -e MASTERIP="172.17.0.2" -it [imagename]
