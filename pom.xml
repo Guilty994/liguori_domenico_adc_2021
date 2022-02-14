@@ -97,7 +97,7 @@
                             <archive>
                                 <manifest>
                                     <mainClass>
-                                        it.adc.p2p.chat.Example
+                                        it.adc.p2p.chat.StartChat
                                     </mainClass>
                                 </manifest>
                             </archive>
