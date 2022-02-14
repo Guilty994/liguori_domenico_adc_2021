@@ -14,8 +14,8 @@
   </a>
 
 <h2 align="center">Anonymous Chat</h2>
-  <h4>Student: </h4> `Domenico Liguori`
-  <h4>MD5(domenicoliguori-07)</h4> `f298d34696d8dd673915a1bb95dfd097`
+  <h4>Student: </h4> <code>Domenico Liguori</code>
+  <h4>MD5(domenicoliguori-07)</h4> <code>f298d34696d8dd673915a1bb95dfd097</code>
 </div>
 
 
@@ -88,14 +88,14 @@ Further information regarding this project assignment can be found at the [ADC c
    ```sh
    docker run --name MASTER -e ID=0 -e MASTERIP="127.0.0.1" -it anonchat
    ```
-2. Check the container address
+2. Check the @container_address
      ```sh
    docker ps
    docker inspect <container ID>
    ```
-3. Now you can start a new peer using the container address as MASTERID and varying the unique ID for each peer
+3. Now you can start a new peer using the @container_address as MASTERID and varying the unique @peerid for each peer
     ```sh
-   docker run --name PEER_[peer id] -e ID=[peer id] -e MASTERIP="[container address]" -it anonchat
+   docker run --name PEER_[peer id] -e ID=@peerid -e MASTERIP="@container_address" -it anonchat
    ```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
