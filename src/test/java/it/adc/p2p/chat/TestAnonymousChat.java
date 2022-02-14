@@ -47,10 +47,10 @@ public class TestAnonymousChat {
 
         try{
             // Generating peers
-            var peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 4000);
-            var peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 4000);
-            var peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 4000);
-            var peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 4000);
+            AnonymousChatImpl peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 4000);
+            AnonymousChatImpl peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 4000);
+            AnonymousChatImpl peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 4000);
+            AnonymousChatImpl peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 4000);
 
             AnonymousChatImpl[] peers = {peer0, peer1, peer2, peer3};
             String[] rooms = {"TEST_ROOM_0", "TEST_ROOM_1", "TEST_ROOM_2", "TEST_ROOM_3"};
@@ -76,10 +76,10 @@ public class TestAnonymousChat {
 
         try{
             // Generating peers
-            var peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 5000);
-            var peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 5000);
-            var peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 5000);
-            var peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 5000);
+            AnonymousChatImpl peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 5000);
+            AnonymousChatImpl peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 5000);
+            AnonymousChatImpl peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 5000);
+            AnonymousChatImpl peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 5000);
 
             AnonymousChatImpl[] peers = {peer0, peer1, peer2, peer3};
             String[] rooms = {"TEST_ROOM_0", "TEST_ROOM_1", "TEST_ROOM_2", "TEST_ROOM_3"};
@@ -109,10 +109,10 @@ public class TestAnonymousChat {
 
         try {
             // Generating peers
-            var peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 6000);
-            var peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 6000);
-            var peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 6000);
-            var peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 6000);
+            AnonymousChatImpl peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 6000);
+            AnonymousChatImpl peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 6000);
+            AnonymousChatImpl peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 6000);
+            AnonymousChatImpl peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 6000);
 
             AnonymousChatImpl[] peers = {peer0, peer1, peer2, peer3};
             String[] rooms = {"TEST_ROOM_0", "TEST_ROOM_1", "TEST_ROOM_2", "TEST_ROOM_3"};
@@ -154,10 +154,10 @@ public class TestAnonymousChat {
 
         try{
             // Generating peers
-            var peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 7000);
-            var peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 7000);
-            var peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 7000);
-            var peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 7000);
+            AnonymousChatImpl peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 7000);
+            AnonymousChatImpl peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 7000);
+            AnonymousChatImpl peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 7000);
+            AnonymousChatImpl peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 7000);
 
             AnonymousChatImpl[] peers = {peer0, peer1, peer2, peer3};
             String[] rooms = {"TEST_ROOM_0", "TEST_ROOM_1", "TEST_ROOM_2", "TEST_ROOM_3"};
@@ -208,10 +208,10 @@ public class TestAnonymousChat {
 
         try {
             // Generating peers
-            var peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 8000);
-            var peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 8000);
-            var peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 8000);
-            var peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 8000);
+            AnonymousChatImpl peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 8000);
+            AnonymousChatImpl peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 8000);
+            AnonymousChatImpl peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 8000);
+            AnonymousChatImpl peer3 = new AnonymousChatImpl(3, "127.0.0.1", new MessageListener(3), 8000);
 
             AnonymousChatImpl[] peers = {peer0, peer1, peer2, peer3};
             String[] rooms = {"TEST_ROOM_0", "TEST_ROOM_1", "TEST_ROOM_2", "TEST_ROOM_3"};

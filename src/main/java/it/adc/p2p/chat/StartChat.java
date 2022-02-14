@@ -23,10 +23,10 @@ public class StartChat {
             parser.parseArgument(args);
 
             //TEXTIO
-            var textIO = TextIoFactory.getTextIO();
-            var terminal = textIO.getTextTerminal();
+            TextIO textIO = TextIoFactory.getTextIO();
+            TextTerminal terminal = textIO.getTextTerminal();
 
-            var peer = new AnonymousChatImpl(id, master, new MessageListener(id), 4000);
+            AnonymousChatImpl peer = new AnonymousChatImpl(id, master, new MessageListener(id), 4000);
 
             //TEXTIO
             terminal.getProperties().setPromptColor("cyan");
