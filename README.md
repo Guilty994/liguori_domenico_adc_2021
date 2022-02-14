@@ -38,7 +38,6 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#license">License</a></li>
   </ol>
 </details>
 
@@ -48,9 +47,13 @@
 
 This project is the implementation of an anonymous chat that runs over a P2P network, built through the support of the framework/library [TomP2P](https://tomp2p.net/), for the ADC class at the [Università degli Studi di Salerno](https://www.unisa.it/).
 
-Further information regarding this project assignment can be found at the [ADC class page](https://spagnuolocarmine.github.io/adc.html).
+Further information regarding this assignment can be found at the [ADC class page](https://spagnuolocarmine.github.io/adc.html).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+
+### Project structure
+
 
 ### Built With
 
@@ -66,6 +69,7 @@ Further information regarding this project assignment can be found at the [ADC c
 ### Prerequisites
 
 **Docker** must be installed on your machine, in order to run this project.
+Check the official docker [get-started page](https://docs.docker.com/get-started/) for more information.
 
 ### Installation
 
@@ -84,27 +88,21 @@ Further information regarding this project assignment can be found at the [ADC c
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-1. Once the image is built, start a new Master peer
+1. Once the image is built, start a new master peer
    ```sh
    docker run --name MASTER -e ID=0 -e MASTERIP="127.0.0.1" -it anonchat
    ```
-2. Check the @container_address
+2. Check the _@container_address_
      ```sh
    docker ps
    docker inspect <container ID>
    ```
-3. Now you can start a new peer using the @container_address as MASTERID and varying the unique @peerid for each peer
+3. Now you can start a new peer using the _@container_address_ as MASTERID and varying the unique _@peerid_ for each peer
     ```sh
    docker run --name PEER_[peer id] -e ID=@peerid -e MASTERIP="@container_address" -it anonchat
    ```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<!-- LICENSE -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
