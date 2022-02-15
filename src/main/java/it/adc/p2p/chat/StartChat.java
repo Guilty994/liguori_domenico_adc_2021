@@ -46,12 +46,15 @@ public class StartChat {
                         recev = textIO.newStringInputReader()
                                 .read(">>");
                     }
-
                     try{
-                        Integer.parseInt(recev);
-                        is_int = true;
+                        if(Integer.parseInt(recev) > 0 && Integer.parseInt(recev) < 6){
+                            is_int = true;
+                        }else{
+                            is_int = false;
+                            terminal.println("Expected an integer value between 1 and 5.");
+                        }
                     }catch (NumberFormatException e){
-                        terminal.println("Invalid input select a value between 1 and 5");
+                        terminal.println("Expected an integer value between 1 and 5.");
                         is_int = false;
                     }
                 }while(!is_int);

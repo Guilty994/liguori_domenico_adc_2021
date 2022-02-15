@@ -42,7 +42,7 @@ public class AnonymousChatImpl implements AnonymousChat{
             FutureDiscover fd = peer.discover().peerAddress(fb.bootstrapTo().iterator().next()).start().awaitUninterruptibly();
             // Check if we're trying to discover the network with a peer that is already in the network
             if(!fd.isSuccess() && _id!= 0){
-                throw new DuplicatePeer(_id);
+                throw new DuplicatePeer(_id); // DOESN'T WORK ON DOCKER TODO
             }
 
         }else {
