@@ -40,10 +40,7 @@ public class StartChat {
                 String recev;
                 boolean is_int;
                 do {
-
-                    recev = textIO.newStringInputReader()
-                            .read(">>");
-
+                    recev = "✓";
 
                     while (recev.contains("✓")) {
                         recev = textIO.newStringInputReader()
@@ -70,6 +67,7 @@ public class StartChat {
 
 
                 switch (option) {
+
                     // Create room
                     case 1:
                         String name = textIO.newStringInputReader()
@@ -84,7 +82,8 @@ public class StartChat {
                         }
 
                         break;
-                        // Join room
+
+                    // Join room
                     case 2:
                         String sname = textIO.newStringInputReader()
                                 .read("Room name:");
@@ -98,7 +97,8 @@ public class StartChat {
                         }
 
                         break;
-                        // Leave room
+
+                    // Leave room
                     case 3:
                         String uname = textIO.newStringInputReader()
                                 .read("Room Name:");
@@ -112,7 +112,8 @@ public class StartChat {
                         }
 
                         break;
-                        // Send message
+
+                    // Send message
                     case 4:
                         String tname = textIO.newStringInputReader()
                                 .read("Room name:");
@@ -130,7 +131,7 @@ public class StartChat {
                         }
                         break;
 
-                        // Leave network
+                    // Leave network
                     case 5:
                         terminal.println("\nARE YOU SURE TO LEAVE THE NETWORK?");
                         boolean exit = textIO.newBooleanInputReader()
