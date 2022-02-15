@@ -11,13 +11,13 @@ public class TestAnonymousChat {
 
     @Test
     @DisplayName("Duplicate peers")
-    void testCase_DuplicatePeers(){
-            assertDoesNotThrow(()->new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 10000));
-            assertDoesNotThrow(()->new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 10000));
-            assertDoesNotThrow(()->new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 10000));
+    void testCase_DuplicatePeers() {
+        assertDoesNotThrow(()->new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 10000));
+        assertDoesNotThrow(()->new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 10000));
+        assertDoesNotThrow(()->new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 10000));
 
-            assertThrows(DuplicatePeer.class, ()->new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 10000));
-            assertThrows(DuplicatePeer.class, ()->new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 10000));
+        assertThrows(DuplicatePeer.class, ()->new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 10000));
+        assertThrows(DuplicatePeer.class, ()->new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 10000));
 
     }
 

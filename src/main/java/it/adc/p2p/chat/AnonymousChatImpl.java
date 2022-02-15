@@ -1,7 +1,9 @@
 package it.adc.p2p.chat;
 
+import it.adc.p2p.chat.exceptions.DNSException;
 import it.adc.p2p.chat.exceptions.DuplicatePeer;
 import it.adc.p2p.chat.exceptions.FailedMasterPeerBootstrap;
+import it.adc.p2p.chat.exceptions.NetworkError;
 import net.tomp2p.dht.*;
 import net.tomp2p.futures.FutureBootstrap;
 import net.tomp2p.futures.FutureDirect;
@@ -15,6 +17,7 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+// TODO DNS refresh when peer leave the network
 
 public class AnonymousChatImpl implements AnonymousChat{
 
@@ -40,10 +43,41 @@ public class AnonymousChatImpl implements AnonymousChat{
         // If bootstrap is successful, start discover network
         if(fb.isSuccess()) {
             FutureDiscover fd = peer.discover().peerAddress(fb.bootstrapTo().iterator().next()).start().awaitUninterruptibly();
-            // Check if we're trying to discover the network with a peer that is already in the network
-            System.out.println(fd.reporter());
-            if(fd.isFailed() && !fd.isDiscoveredTCP() && !fd.isDiscoveredUDP() && _id!= 0){
-                throw new DuplicatePeer(_id); // DOESN'T WORK ON DOCKER TODO localmente vanno sullo stesso socket e falliscono
+
+            // Check if we're trying to start 2 peers on the same socket
+            /*if(fd.isFailed() && !fd.isDiscoveredTCP() && !fd.isDiscoveredUDP() && _id!= 0){
+                throw new DuplicatePeer(_id); // DOESN'T WORK ON DOCKER
+            }*/
+
+            // Check if a peer with same id already in the network
+            FutureGet futureGet = _dht.get(Number160.createHash("NETWORK_DNS")).start();
+            futureGet.awaitUninterruptibly();
+
+            if(futureGet.isSuccess()){
+                if(futureGet.isEmpty()){
+                    // Master node initialize the dns
+                    HashSet<String> dns = new HashSet<>();
+                    dns.add("id:"+_id);
+                    FuturePut futurePut = _dht.put(Number160.createHash("NETWORK_DNS")).data(new Data(dns)).start().awaitUninterruptibly();
+                    if(futurePut.isFailed())
+                        throw new DNSException("creation");
+                }else{
+                    // Normal peers check if they're already in the network
+                    HashSet<String> dns = (HashSet<String>) futureGet.dataMap().values().iterator().next().object();
+                    if(dns.contains("id:"+_id)){
+                        // Duplicate peer found
+                        throw new DuplicatePeer(_id);
+                    }else{
+                        // The peer add itself in the network dns
+                        dns.add("id:"+_id);
+                        FuturePut futurePut = _dht.put(Number160.createHash("NETWORK_DNS")).data(new Data(dns)).start().awaitUninterruptibly();
+                        if(futurePut.isFailed()){
+                            throw new DNSException("update");
+                        }
+                    }
+                }
+            }else{
+                throw new NetworkError();
             }
 
         }else {
@@ -59,90 +93,99 @@ public class AnonymousChatImpl implements AnonymousChat{
 
     @Override
     public boolean createRoom(String _room_name) {
-        try {
-            FutureGet futureGet = _dht.get(Number160.createHash(_room_name)).start();
-            futureGet.awaitUninterruptibly();
-            if (futureGet.isSuccess() && futureGet.isEmpty()){
-                FuturePut futurePut = _dht.put(Number160.createHash(_room_name)).data(new Data(new HashSet<PeerAddress>())).start().awaitUninterruptibly();
-                if(futurePut.isSuccess()){
-                    joinRoom(_room_name);
-                    return true;
-                }else{
-                    //check if the nodes in the room are dead TODO
-                    return false;
+        if(!_room_name.equals("NETWORK_DNS")){
+            try {
+                FutureGet futureGet = _dht.get(Number160.createHash(_room_name)).start();
+                futureGet.awaitUninterruptibly();
+                if (futureGet.isSuccess() && futureGet.isEmpty()){
+                    FuturePut futurePut = _dht.put(Number160.createHash(_room_name)).data(new Data(new HashSet<PeerAddress>())).start().awaitUninterruptibly();
+                    if(futurePut.isSuccess()){
+                        joinRoom(_room_name);
+                        return true;
+                    }else{
+                        //check if the nodes in the room are dead TODO
+                        return false;
+                    }
+
+
                 }
 
-
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
         return false;
     }
 
     @Override
     public boolean joinRoom(String _room_name) {
-        try {
-            FutureGet futureGet = _dht.get(Number160.createHash(_room_name)).start();
-            futureGet.awaitUninterruptibly();
-            if (futureGet.isSuccess()) {
-                if(futureGet.isEmpty() ) return false;
-                HashSet<PeerAddress> peers_in_room;
-                peers_in_room = (HashSet<PeerAddress>) futureGet.dataMap().values().iterator().next().object();
-                peers_in_room.add(_dht.peer().peerAddress());
-                _dht.put(Number160.createHash(_room_name)).data(new Data(peers_in_room)).start().awaitUninterruptibly();
-                room_list.add(_room_name);
-                return true;
+        if(!_room_name.equals("NETWORK_DNS")){
+            try {
+                FutureGet futureGet = _dht.get(Number160.createHash(_room_name)).start();
+                futureGet.awaitUninterruptibly();
+                if (futureGet.isSuccess()) {
+                    if(futureGet.isEmpty() ) return false;
+                    HashSet<PeerAddress> peers_in_room;
+                    peers_in_room = (HashSet<PeerAddress>) futureGet.dataMap().values().iterator().next().object();
+                    peers_in_room.add(_dht.peer().peerAddress());
+                    _dht.put(Number160.createHash(_room_name)).data(new Data(peers_in_room)).start().awaitUninterruptibly();
+                    room_list.add(_room_name);
+                    return true;
+                }
+            }catch (Exception e) {
+                e.printStackTrace();
             }
-        }catch (Exception e) {
-            e.printStackTrace();
         }
+
         return false;
     }
 
     @Override
     public boolean leaveRoom(String _room_name) {
-        try {
-            FutureGet futureGet = _dht.get(Number160.createHash(_room_name)).start();
-            futureGet.awaitUninterruptibly();
-            if (futureGet.isSuccess()) {
-                if(futureGet.isEmpty() ) return false;
-                HashSet<PeerAddress> peers_in_room;
-                peers_in_room = (HashSet<PeerAddress>) futureGet.dataMap().values().iterator().next().object();
+        if(!_room_name.equals("NETWORK_DNS")){
+            try {
+                FutureGet futureGet = _dht.get(Number160.createHash(_room_name)).start();
+                futureGet.awaitUninterruptibly();
+                if (futureGet.isSuccess()) {
+                    if(futureGet.isEmpty() ) return false;
+                    HashSet<PeerAddress> peers_in_room;
+                    peers_in_room = (HashSet<PeerAddress>) futureGet.dataMap().values().iterator().next().object();
 
-                if(peers_in_room.contains(_dht.peer().peerAddress())){
-                    if(room_list.contains(_room_name)){
-                        peers_in_room.remove(_dht.peer().peerAddress());
-                        _dht.put(Number160.createHash(_room_name)).data(new Data(peers_in_room)).start().awaitUninterruptibly();
-                        room_list.remove(_room_name);
-                        if(peers_in_room.isEmpty()){
-                            return removeRoom(_room_name);
+                    if(peers_in_room.contains(_dht.peer().peerAddress())){
+                        if(room_list.contains(_room_name)){
+                            peers_in_room.remove(_dht.peer().peerAddress());
+                            _dht.put(Number160.createHash(_room_name)).data(new Data(peers_in_room)).start().awaitUninterruptibly();
+                            room_list.remove(_room_name);
+                            if(peers_in_room.isEmpty()){
+                                return removeRoom(_room_name);
+                            }
+                            return true;
+                        }else{
+                            // Fix network error
+                            peers_in_room.remove(_dht.peer().peerAddress());
+                            _dht.put(Number160.createHash(_room_name)).data(new Data(peers_in_room)).start().awaitUninterruptibly();
+                            if(peers_in_room.isEmpty()){
+                                return removeRoom(_room_name);
+                            }
+                            return false;
                         }
-                        return true;
+
+
                     }else{
-                        // Fix network error
-                        peers_in_room.remove(_dht.peer().peerAddress());
-                        _dht.put(Number160.createHash(_room_name)).data(new Data(peers_in_room)).start().awaitUninterruptibly();
-                        if(peers_in_room.isEmpty()){
-                            return removeRoom(_room_name);
-                        }
+                        room_list.remove(_room_name);
                         return false;
                     }
-
-
-                }else{
-                    room_list.remove(_room_name);
-                    return false;
                 }
+            }catch (Exception e) {
+                e.printStackTrace();
             }
-        }catch (Exception e) {
-            e.printStackTrace();
         }
+
         return false;
     }
 
-    public boolean removeRoom(String _room_name){
+    private boolean removeRoom(String _room_name){
         FutureRemove futureRemove = _dht.remove(Number160.createHash(_room_name)).start();
         futureRemove.awaitUninterruptibly();
         return futureRemove.isSuccess();
@@ -150,26 +193,29 @@ public class AnonymousChatImpl implements AnonymousChat{
 
     @Override
     public boolean sendMessage(String _room_name, String _text_message) {
-        try {
-            if(room_list.contains(_room_name)){
-                FutureGet futureGet = _dht.get(Number160.createHash(_room_name)).start();
-                futureGet.awaitUninterruptibly();
-                if (futureGet.isSuccess()) {
-                    HashSet<PeerAddress> peers_in_room;
-                    peers_in_room = (HashSet<PeerAddress>) futureGet.dataMap().values().iterator().next().object();
-                    for(PeerAddress peer:peers_in_room)
-                    {
-                        FutureDirect futureDirect = _dht.peer().sendDirect(peer).object(_room_name+"\n"+_text_message).start();
-                        futureDirect.awaitUninterruptibly();
+        if(!_room_name.equals("NETWORK_DNS")){
+            try {
+                if(room_list.contains(_room_name)){
+                    FutureGet futureGet = _dht.get(Number160.createHash(_room_name)).start();
+                    futureGet.awaitUninterruptibly();
+                    if (futureGet.isSuccess()) {
+                        HashSet<PeerAddress> peers_in_room;
+                        peers_in_room = (HashSet<PeerAddress>) futureGet.dataMap().values().iterator().next().object();
+                        for(PeerAddress peer:peers_in_room)
+                        {
+                            FutureDirect futureDirect = _dht.peer().sendDirect(peer).object(_room_name+"\n"+_text_message).start();
+                            futureDirect.awaitUninterruptibly();
+                        }
+
+                        return true;
                     }
-
-                    return true;
                 }
-            }
 
-        }catch (Exception e) {
-            e.printStackTrace();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
         return false;
     }
 
