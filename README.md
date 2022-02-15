@@ -61,16 +61,16 @@ Further information regarding this assignment can be found at the [ADC class pag
 
 ### Project structure
 
-The package `it.adc.p2p.chat` provides 3 Java <span style="color:#0099ff">**Classes**</span> and 1 Java <span style="color:#4dff4d">**Interface**</span>:
+The package `it.adc.p2p.chat` provides 3 Java **Classes** and 1 Java **Interface**:
 
-* <span style="color:#4dff4d">**I**</span> _AnonymousChat_ Interface that define the publish/subscribe paradigm.
-* <span style="color:#0099ff">**C**</span> _AnonymousChatImpl_ Implementation of _AnonymousChat_ that exploits TomP2P library, providing a basic API for anonymous chats. 
-* <span style="color:#0099ff">**C**</span> _MessageListener_ The listener that is used by the peers to listen for incoming messages.
-* <span style="color:#0099ff">**C**</span> _StartChat_ A class that use the provided API to start an example anonymous chat.
+* <**I**> _AnonymousChat_ Interface that define the publish/subscribe paradigm.
+* <**C**> _AnonymousChatImpl_ Implementation of _AnonymousChat_ that exploits TomP2P library, providing a basic API for anonymous chats. 
+* <**C**> _MessageListener_ The listener that is used by the peers to listen for incoming messages.
+* <**C**> _StartChat_ A class that use the provided API to start an example anonymous chat.
 
-The package `it.adc.p2p.chat.Exceptions` provides 1 Java <span style="color:#ff1a1a">**Exception**</span>:
+The package `it.adc.p2p.chat.Exceptions` provides 1 Java **Exception**:
 
-* `#ff1a1a`(**E**) _FailedMasterPeerBootstrap_ This exception is triggered when an error occur during the bootstrap to the master peer.
+* <**E**> _FailedMasterPeerBootstrap_ This exception is triggered when an error occur during the bootstrap to the master peer.
 
 
 ### X
