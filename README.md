@@ -70,7 +70,7 @@ The package `it.adc.p2p.chat` provides 3 Java <span style="color:#0099ff">**Clas
 
 The package `it.adc.p2p.chat.Exceptions` provides 1 Java <span style="color:#ff1a1a">**Exception**</span>:
 
-* ![#ff1a1a](**E**) _FailedMasterPeerBootstrap_ This exception is triggered when an error occur during the bootstrap to the master peer.
+* `#ff1a1a`(**E**) _FailedMasterPeerBootstrap_ This exception is triggered when an error occur during the bootstrap to the master peer.
 
 
 ### X
