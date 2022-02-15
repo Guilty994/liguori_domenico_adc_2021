@@ -116,9 +116,9 @@ Check the official docker [get-started page](https://docs.docker.com/get-started
 
 ### Installation
 
-1. Clone the repo locally on your machine
+1. Download the Dockerfile locally
    ```
-   git clone https://github.com/Guilty994/liguori_domenico_adc_2021.git
+   curl -OL https://raw.githubusercontent.com/Guilty994/liguori_domenico_adc_2021/master/Dockerfile
    ```
 2. Build the Docker image
    ```
