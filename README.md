@@ -56,6 +56,7 @@ The main requirement for this project were asynchronous and anonymous communicat
 
 Further information regarding this assignment can be found at the [ADC class page](https://spagnuolocarmine.github.io/adc.html).
 
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Proposed solution
 
@@ -106,6 +107,8 @@ For a better overview of all the plugins and libraries used, check out the `pom.
 ## Getting Started
 
 This project provides a simple example of an anonymous chat that uses the provided API. To start this example follow the steps below.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Prerequisites
 
