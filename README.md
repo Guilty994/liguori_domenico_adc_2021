@@ -27,10 +27,10 @@
     <li>
       <a href="#about-the-project">About this project</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
         <li><a href="#proposed-solution">Proposed solution</a></li>
         <li><a href="#project-structure">Project Structure</a></li>
         <li><a href="#junit-tests">JUnit tests</a></li>
+        <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
     <li>
