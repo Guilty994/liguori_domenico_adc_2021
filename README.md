@@ -120,7 +120,7 @@ Check the official docker [get-started page](https://docs.docker.com/get-started
    ```
    git clone https://github.com/Guilty994/liguori_domenico_adc_2021.git
    ```
-2. To build the Docker image run
+2. Build the Docker image
    ```
    docker build --no-cache -t anonchat .
    ```
@@ -131,7 +131,7 @@ Check the official docker [get-started page](https://docs.docker.com/get-started
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-1. Once the image is built, start a new master peer
+1. Start a new master peer
    ```
    docker run --name MASTER -e ID=0 -e MASTERIP="127.0.0.1" -it anonchat
    ```
