@@ -30,7 +30,7 @@ public class StartChat {
 
             //TEXTIO
             terminal.getProperties().setPromptColor("cyan");
-            terminal.println("v 1.0");
+            terminal.println("v 1.1");
             terminal.println("Peer ID: "+id+" - MASTER NODE ADDRESS: "+master);
             terminal.getProperties().setPromptColor("green");
 

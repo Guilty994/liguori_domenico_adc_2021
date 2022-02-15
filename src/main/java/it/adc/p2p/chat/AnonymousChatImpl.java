@@ -41,8 +41,9 @@ public class AnonymousChatImpl implements AnonymousChat{
         if(fb.isSuccess()) {
             FutureDiscover fd = peer.discover().peerAddress(fb.bootstrapTo().iterator().next()).start().awaitUninterruptibly();
             // Check if we're trying to discover the network with a peer that is already in the network
-            if(!fd.isSuccess() && _id!= 0){
-                throw new DuplicatePeer(_id); // DOESN'T WORK ON DOCKER TODO
+            System.out.println(fd.reporter());
+            if(fd.isFailed() && !fd.isDiscoveredTCP() && !fd.isDiscoveredUDP() && _id!= 0){
+                throw new DuplicatePeer(_id); // DOESN'T WORK ON DOCKER TODO localmente vanno sullo stesso socket e falliscono
             }
 
         }else {
@@ -67,7 +68,7 @@ public class AnonymousChatImpl implements AnonymousChat{
                     joinRoom(_room_name);
                     return true;
                 }else{
-                    //check if the nodes in the room are dead
+                    //check if the nodes in the room are dead TODO
                     return false;
                 }
 
