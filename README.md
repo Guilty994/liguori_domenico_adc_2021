@@ -72,10 +72,13 @@ The package `it.adc.p2p.chat.Exceptions` provides 1 Java **Exception**:
 
 * <**E**> _FailedMasterPeerBootstrap_ This exception is triggered when an error occur during the bootstrap to the master peer.
 
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ### X
 
 TODO
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ### JUnit tests
 
@@ -87,6 +90,8 @@ A series of unit tests have been provided in the test package `it.adc.p2p.chat` 
 * _TestAnonymousChat::testCase_JoinRoom_
 * _TestAnonymousChat::testCase_SendMessage_
 * _TestAnonymousChat::testCase_LeaveRoom_
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Built With
 
