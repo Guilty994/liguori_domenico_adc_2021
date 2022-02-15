@@ -134,6 +134,8 @@ Check the official docker [get-started page](https://docs.docker.com/get-started
 <!-- USAGE EXAMPLES -->
 ## Usage
 
+<!-- docker run --name PEER_1 -e ID=1 -e MASTERIP="172.17.0.2" -it anonchat -->
+
 1. Start a new master peer
    ```
    docker run --name MASTER -e ID=0 -e MASTERIP="127.0.0.1" -it anonchat
