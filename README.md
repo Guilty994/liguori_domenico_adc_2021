@@ -112,6 +112,8 @@ For a better overview of all the plugins and libraries used, check out the `pom.
 **Docker** must be installed on your machine in order to run this project.
 Check the official docker [get-started page](https://docs.docker.com/get-started/) for more information.
 
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 ### Installation
 
 1. Clone the repo locally on your machine
