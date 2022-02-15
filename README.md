@@ -29,8 +29,8 @@
       <ul>
         <li><a href="#built-with">Built With</a></li>
         <li><a href="#project-structure">Project Structure</a></li>
-        <li><a href="#x">Project Structure</a></li>
-        <li><a href="#junit-tests">Project Structure</a></li>
+        <li><a href="#x">X</a></li>
+        <li><a href="#junit-tests">JUnit tests</a></li>
       </ul>
     </li>
     <li>
