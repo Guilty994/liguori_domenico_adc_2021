@@ -32,7 +32,8 @@ public class MessageListener {
                 TextIO textIO = TextIoFactory.getTextIO();
                 TextTerminal terminal = textIO.getTextTerminal();
                 terminal.println("<From: "+sender.hashCode() + " In: " + room_and_message[0] + "> " + room_and_message[1]+" ✓");
-            }
+            }else
+                System.out.println("conflitto msg");
             return "success";
         }else{
             // Reserved for different kind of messages
