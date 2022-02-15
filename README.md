@@ -143,7 +143,7 @@ Check the official docker [get-started page](https://docs.docker.com/get-started
    docker ps
    docker inspect <container ID>
    ```
-3. Now you can start a new peers using the _@container_address_ as MASTERID and varying the unique _@peerid_
+3. Now you can start a new peers using the _@container_address_ as MASTERID and varying the unique _@peerid_ ∈ [1, +∞]
     ```
    docker run --name PEER_[peer id] -e ID=@peerid -e MASTERIP="@container_address" -it anonchat
    ```

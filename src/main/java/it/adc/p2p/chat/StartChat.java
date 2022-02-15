@@ -37,14 +37,27 @@ public class StartChat {
             printMenu(terminal);
 
             while(true) {
+                String recev;
+                boolean is_int;
+                do {
 
-                String recev = textIO.newStringInputReader()
-                        .read(">>");
-
-                while(recev.contains("✓")){
                     recev = textIO.newStringInputReader()
                             .read(">>");
-                }
+
+
+                    while (recev.contains("✓")) {
+                        recev = textIO.newStringInputReader()
+                                .read(">>");
+                    }
+
+                    try{
+                        Integer.parseInt(recev);
+                        is_int = true;
+                    }catch (NumberFormatException e){
+                        terminal.println("Invalid input select a value between 1 and 5");
+                        is_int = false;
+                    }
+                }while(!is_int);
 
                 int option = Integer.parseInt(recev);
 
@@ -54,7 +67,6 @@ public class StartChat {
                             .withMaxVal(5)
                             .read(">>");
                 }
-
 
 
                 switch (option) {
@@ -88,9 +100,8 @@ public class StartChat {
                         break;
                         // Leave room
                     case 3:
-                        terminal.println("Room name:");
                         String uname = textIO.newStringInputReader()
-                                .read("Name:");
+                                .read("Room Name:");
                         if(peer.leaveRoom(uname))
                             terminal.println("Successfully left room ["+uname+"]");
                         else{

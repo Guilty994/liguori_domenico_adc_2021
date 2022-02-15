@@ -1,9 +1,11 @@
 package it.adc.p2p.chat;
 
+import it.adc.p2p.chat.exceptions.DuplicatePeer;
 import it.adc.p2p.chat.exceptions.FailedMasterPeerBootstrap;
 import net.tomp2p.dht.*;
 import net.tomp2p.futures.FutureBootstrap;
 import net.tomp2p.futures.FutureDirect;
+import net.tomp2p.futures.FutureDiscover;
 import net.tomp2p.p2p.Peer;
 import net.tomp2p.p2p.PeerBuilder;
 import net.tomp2p.peers.Number160;
@@ -35,9 +37,14 @@ public class AnonymousChatImpl implements AnonymousChat{
         FutureBootstrap fb = peer.bootstrap().inetAddress(InetAddress.getByName(_master_peer)).ports(MASTER_PORT).start();
         fb.awaitUninterruptibly();
 
-        //If bootstrap is successful, start discover network
+        // If bootstrap is successful, start discover network
         if(fb.isSuccess()) {
-            peer.discover().peerAddress(fb.bootstrapTo().iterator().next()).start().awaitUninterruptibly();
+            FutureDiscover fd = peer.discover().peerAddress(fb.bootstrapTo().iterator().next()).start().awaitUninterruptibly();
+            // Check if we're trying to discover the network with a peer that is already in the network
+            if(!fd.isSuccess() && _id!= 0){
+                throw new DuplicatePeer(_id);
+            }
+
         }else {
             throw new FailedMasterPeerBootstrap();
         }
@@ -46,7 +53,7 @@ public class AnonymousChatImpl implements AnonymousChat{
         _listener.setHash(peer.peerID());
 
         //Wait for messages to be received
-        peer.objectDataReply((sender, request) -> _listener.parseMessage(sender, request));
+        peer.objectDataReply(_listener::parseMessage);
     }
 
     @Override
@@ -59,8 +66,11 @@ public class AnonymousChatImpl implements AnonymousChat{
                 if(futurePut.isSuccess()){
                     joinRoom(_room_name);
                     return true;
-                }else
+                }else{
+                    //check if the nodes in the room are dead
                     return false;
+                }
+
 
             }
 
@@ -106,7 +116,7 @@ public class AnonymousChatImpl implements AnonymousChat{
                         _dht.put(Number160.createHash(_room_name)).data(new Data(peers_in_room)).start().awaitUninterruptibly();
                         room_list.remove(_room_name);
                         if(peers_in_room.isEmpty()){
-                            removeRoom(_room_name);
+                            return removeRoom(_room_name);
                         }
                         return true;
                     }else{
@@ -114,7 +124,7 @@ public class AnonymousChatImpl implements AnonymousChat{
                         peers_in_room.remove(_dht.peer().peerAddress());
                         _dht.put(Number160.createHash(_room_name)).data(new Data(peers_in_room)).start().awaitUninterruptibly();
                         if(peers_in_room.isEmpty()){
-                            removeRoom(_room_name);
+                            return removeRoom(_room_name);
                         }
                         return false;
                     }
@@ -134,10 +144,7 @@ public class AnonymousChatImpl implements AnonymousChat{
     public boolean removeRoom(String _room_name){
         FutureRemove futureRemove = _dht.remove(Number160.createHash(_room_name)).start();
         futureRemove.awaitUninterruptibly();
-        if (futureRemove.isSuccess())
-            return true;
-        else
-            return false;
+        return futureRemove.isSuccess();
     }
 
     @Override
@@ -168,7 +175,6 @@ public class AnonymousChatImpl implements AnonymousChat{
     public boolean leaveNetwork(){
         for(String room: new ArrayList<>(room_list)) leaveRoom(room);
         _dht.peer().announceShutdown().start().awaitUninterruptibly();
-
 
         return true;
     }
