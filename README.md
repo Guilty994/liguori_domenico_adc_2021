@@ -107,6 +107,10 @@ For a better overview of all the plugins and libraries used, check out the `pom.
 <!-- GETTING STARTED -->
 ## Getting Started
 
+This project provides a simple example of the usage of this API which can be started following the steps below.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 ### Prerequisites
 
 **Docker** must be installed on your machine in order to run this project.
