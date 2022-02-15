@@ -61,7 +61,7 @@ Further information regarding this assignment can be found at the [ADC class pag
 
 ### Proposed solution
 
-TODO
+TODOTODOTODOTODOTODOTODOTODO
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -84,7 +84,7 @@ The package `it.adc.p2p.chat.Exceptions` provides 1 Java **Exception**:
 
 A series of unit tests have been provided in the test package `it.adc.p2p.chat` to check out all the API functionalities.
 
-* _TestAnonymousChat::testCase_MasterBootstrapping_ 
+* _TestAnonymousChat::testCase_MasterBootstrapping_ TODOTODOTODOTODOTODOTODO
 * _TestAnonymousChat::testCase_CreateNonExistingRoom_
 * _TestAnonymousChat::testCase_CreateExistingRoom_
 * _TestAnonymousChat::testCase_JoinRoom_
@@ -100,7 +100,7 @@ A series of unit tests have been provided in the test package `it.adc.p2p.chat` 
 * [TomP2P](https://tomp2p.net/) 5.0-Beta8
 * [Docker](https://www.docker.com/) 
 
-For a better overview of all the plugins and libraries used, check out the `pom.xml` file in the project root.
+For a better overview of all the plugins and libraries used, check out the `pom.xml` in the project root.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
