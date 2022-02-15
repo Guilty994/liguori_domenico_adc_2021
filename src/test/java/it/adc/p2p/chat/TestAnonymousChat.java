@@ -1,6 +1,6 @@
 package it.adc.p2p.chat;
 
-import it.adc.p2p.chat.Exceptions.FailedMasterPeerBootstrap;
+import it.adc.p2p.chat.exceptions.FailedMasterPeerBootstrap;
 import org.junit.jupiter.api.*;
 import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;

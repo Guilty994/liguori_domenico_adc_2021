@@ -74,7 +74,7 @@ The package `it.adc.p2p.chat` provides 3 Java **Classes** and 1 Java **Interface
 * <**C**> _MessageListener_ The listener that is used by the peers to listen for incoming messages.
 * <**C**> _StartChat_ A class that use the provided API to start an example anonymous chat.
 
-The package `it.adc.p2p.chat.Exceptions` provides 1 Java **Exception**:
+The package `it.adc.p2p.chat.exceptions` provides 1 Java **Exception**:
 
 * <**E**> _FailedMasterPeerBootstrap_ This exception is triggered when an error occur during the bootstrap to the master peer.
 

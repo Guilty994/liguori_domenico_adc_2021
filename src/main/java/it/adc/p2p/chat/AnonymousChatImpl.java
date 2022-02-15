@@ -1,6 +1,6 @@
 package it.adc.p2p.chat;
 
-import it.adc.p2p.chat.Exceptions.FailedMasterPeerBootstrap;
+import it.adc.p2p.chat.exceptions.FailedMasterPeerBootstrap;
 import net.tomp2p.dht.*;
 import net.tomp2p.futures.FutureBootstrap;
 import net.tomp2p.futures.FutureDirect;
