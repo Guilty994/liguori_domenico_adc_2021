@@ -79,7 +79,14 @@ TODO
 
 ### JUnit tests
 
-TODO
+A series of unit tests have been provided in the test package `it.adc.p2p.chat` to check out all the API functionalities.
+
+* _TestAnonymousChat::testCase_MasterBootstrapping_ 
+* _TestAnonymousChat::testCase_CreateNonExistingRoom_
+* _TestAnonymousChat::testCase_CreateExistingRoom_
+* _TestAnonymousChat::testCase_JoinRoom_
+* _TestAnonymousChat::testCase_SendMessage_
+* _TestAnonymousChat::testCase_LeaveRoom_
 
 ### Built With
 
@@ -88,7 +95,7 @@ TODO
 * [TomP2P](https://tomp2p.net/) 5.0-Beta8
 * [Docker](https://www.docker.com/) 
 
-For a better overview of all the plugins and libraries check out the `pom.xml` file in the project root.
+For a better overview of all the plugins and libraries used, check out the `pom.xml` file in the project root.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
