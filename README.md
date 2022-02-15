@@ -28,8 +28,8 @@
       <a href="#about-the-project">About this project</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
+        <li><a href="#proposed-solution">Proposed solution</a></li>
         <li><a href="#project-structure">Project Structure</a></li>
-        <li><a href="#x">X</a></li>
         <li><a href="#junit-tests">JUnit tests</a></li>
       </ul>
     </li>
@@ -59,6 +59,12 @@ Further information regarding this assignment can be found at the [ADC class pag
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
+### Proposed solution
+
+TODO
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 ### Project structure
 
 The package `it.adc.p2p.chat` provides 3 Java **Classes** and 1 Java **Interface**:
@@ -71,12 +77,6 @@ The package `it.adc.p2p.chat` provides 3 Java **Classes** and 1 Java **Interface
 The package `it.adc.p2p.chat.Exceptions` provides 1 Java **Exception**:
 
 * <**E**> _FailedMasterPeerBootstrap_ This exception is triggered when an error occur during the bootstrap to the master peer.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-### X
-
-TODO
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
