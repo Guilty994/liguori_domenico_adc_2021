@@ -29,6 +29,8 @@
       <ul>
         <li><a href="#built-with">Built With</a></li>
         <li><a href="#project-structure">Project Structure</a></li>
+        <li><a href="#x">Project Structure</a></li>
+        <li><a href="#junit-tests">Project Structure</a></li>
       </ul>
     </li>
     <li>
@@ -39,7 +41,6 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-<li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -49,7 +50,7 @@
 
 This project is the implementation of an anonymous chat that runs over a P2P network, built through the support of the framework/library [TomP2P](https://tomp2p.net/), for the ADC class at the [Università degli Studi di Salerno](https://www.unisa.it/).
 
-The main requirement for this project were asynchronous and anonymous communication. We were able to achieve those requirements through the usage of the **publish/subscribe paradigm**, a well known paradigm in the asynchronous communication literature.
+The main requirement for this project were asynchronous and anonymous communication. We were able to achieve those requirements through the usage of the [publish/subscribe paradigm](https://www.pubnub.com/learn/glossary/what-is-publish-subscribe/), a well known paradigm in the asynchronous communication literature.
 
 
 
@@ -60,17 +61,34 @@ Further information regarding this assignment can be found at the [ADC class pag
 
 ### Project structure
 
-TODO
-TODO
-TODO
+The package `it.adc.p2p.chat` provides 3 Java <span style="color:#0099ff">**Classes**</span> and 1 Java <span style="color:#4dff4d">**Interface**</span>:
+
+* <span style="color:#4dff4d">**I**</span> _AnonymousChat_ Interface that define the publish/subscribe paradigm.
+* <span style="color:#0099ff">**C**</span> _AnonymousChatImpl_ Implementation of _AnonymousChat_ that exploits TomP2P library, providing a basic API for anonymous chats. 
+* <span style="color:#0099ff">**C**</span> _MessageListener_ The listener that is used by the peers to listen for incoming messages.
+* <span style="color:#0099ff">**C**</span> _StartChat_ A class that use the provided API to start an example anonymous chat.
+
+The package `it.adc.p2p.chat.Exceptions` provides 1 Java <span style="color:#ff1a1a">**Exception**</span>:
+
+* <span style="color:#ff1a1a">**E**</span> _FailedMasterPeerBootstrap_ This exception is triggered when an error occur during the bootstrap to the master peer.
 
 
+### X
+
+TODO
+
+### JUnit tests
+
+TODO
 
 ### Built With
 
-* [Maven](https://maven.apache.org/)
-* [TomP2P](https://tomp2p.net/)
-* [Docker](https://www.docker.com/)
+* [Maven](https://maven.apache.org/) 3.5.1
+* [JUnit](https://junit.org/) 4.12
+* [TomP2P](https://tomp2p.net/) 5.0-Beta8
+* [Docker](https://www.docker.com/) 
+
+For a better overview of all the plugins and libraries check out the `pom.xml` file in the project root.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -112,16 +130,6 @@ Check the official docker [get-started page](https://docs.docker.com/get-started
     ```
    docker run --name PEER_[peer id] -e ID=@peerid -e MASTERIP="@container_address" -it anonchat
    ```
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-## Acknowledgments
-
-Additional libraries used:
-TODO
-TODO
-TODO
-
-
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
