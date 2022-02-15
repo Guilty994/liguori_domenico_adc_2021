@@ -56,8 +56,6 @@ The main requirement for this project were asynchronous and anonymous communicat
 
 Further information regarding this assignment can be found at the [ADC class page](https://spagnuolocarmine.github.io/adc.html).
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
 
 ### Proposed solution
 
