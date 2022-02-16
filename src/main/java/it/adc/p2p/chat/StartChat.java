@@ -17,6 +17,8 @@ public class StartChat {
 
     public static void main(String[] args) throws Exception {
 
+        Runtime current = Runtime.getRuntime();
+
         StartChat example = new StartChat();
         final CmdLineParser parser = new CmdLineParser(example);
         try {
@@ -28,12 +30,13 @@ public class StartChat {
 
             AnonymousChatImpl peer = new AnonymousChatImpl(id, master, new MessageListener(id), 4000);
 
+            current.addShutdownHook(new ShutDownProcedure(peer));
+
             //TEXTIO
             terminal.getProperties().setPromptColor("cyan");
             terminal.println("v 1.1");
             terminal.println("Peer ID: "+id+" - MASTER NODE ADDRESS: "+master);
             terminal.getProperties().setPromptColor("green");
-
 
             printMenu(terminal);
 

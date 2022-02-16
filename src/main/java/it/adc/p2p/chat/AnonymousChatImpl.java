@@ -5,9 +5,7 @@ import it.adc.p2p.chat.exceptions.DuplicatePeer;
 import it.adc.p2p.chat.exceptions.FailedMasterPeerBootstrap;
 import it.adc.p2p.chat.exceptions.NetworkError;
 import net.tomp2p.dht.*;
-import net.tomp2p.futures.FutureBootstrap;
-import net.tomp2p.futures.FutureDirect;
-import net.tomp2p.futures.FutureDiscover;
+import net.tomp2p.futures.*;
 import net.tomp2p.p2p.Peer;
 import net.tomp2p.p2p.PeerBuilder;
 import net.tomp2p.peers.Number160;
@@ -17,19 +15,20 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-// TODO DNS refresh when peer leave the network
+// TODO DNS refresh when peer leave the network and periodically mantain the dns
 
 public class AnonymousChatImpl implements AnonymousChat{
 
     final private Peer peer;
     final private PeerDHT _dht;
     private int MASTER_PORT;
-
+    private Integer id;
 
     // List of the room this peer joined
     final private ArrayList<String> room_list = new ArrayList<>();
 
     public AnonymousChatImpl(int _id, String _master_peer, final MessageListener _listener, int _master_port) throws Exception {
+        this.id = _id;
         MASTER_PORT = _master_port;
 
         //Create the peer, set his port to 4000+_id, add that peer to the DHT
@@ -43,11 +42,6 @@ public class AnonymousChatImpl implements AnonymousChat{
         // If bootstrap is successful, start discover network
         if(fb.isSuccess()) {
             FutureDiscover fd = peer.discover().peerAddress(fb.bootstrapTo().iterator().next()).start().awaitUninterruptibly();
-
-            // Check if we're trying to start 2 peers on the same socket
-            /*if(fd.isFailed() && !fd.isDiscoveredTCP() && !fd.isDiscoveredUDP() && _id!= 0){
-                throw new DuplicatePeer(_id); // DOESN'T WORK ON DOCKER
-            }*/
 
             // Check if a peer with same id already in the network
             FutureGet futureGet = _dht.get(Number160.createHash("NETWORK_DNS")).start();
@@ -83,7 +77,6 @@ public class AnonymousChatImpl implements AnonymousChat{
         }else {
             throw new FailedMasterPeerBootstrap();
         }
-
         // Update listener info
         _listener.setHash(peer.peerID());
 
@@ -97,21 +90,44 @@ public class AnonymousChatImpl implements AnonymousChat{
             try {
                 FutureGet futureGet = _dht.get(Number160.createHash(_room_name)).start();
                 futureGet.awaitUninterruptibly();
-                if (futureGet.isSuccess() && futureGet.isEmpty()){
-                    FuturePut futurePut = _dht.put(Number160.createHash(_room_name)).data(new Data(new HashSet<PeerAddress>())).start().awaitUninterruptibly();
-                    if(futurePut.isSuccess()){
-                        joinRoom(_room_name);
-                        return true;
+                if (futureGet.isSuccess()){
+                    if(futureGet.isEmpty()){
+                        FuturePut futurePut = _dht.put(Number160.createHash(_room_name)).data(new Data(new HashSet<PeerAddress>())).start().awaitUninterruptibly();
+                        if(futurePut.isSuccess()){
+                            return joinRoom(_room_name);
+                        }else{
+                            throw new NetworkError();
+                        }
                     }else{
-                        //check if the nodes in the room are dead TODO
-                        return false;
+                        HashSet<PeerAddress> peers_in_room = (HashSet<PeerAddress>) futureGet.dataMap().values().iterator().next().object();
+
+                        boolean must_update = false;
+                        // Check for zombies -> peers that are listed in the room but no more active in the network
+                        for (PeerAddress pa:peers_in_room){
+                            FuturePing fp = peer.ping().peerAddress(pa).tcpPing().start();
+                            fp.awaitUninterruptibly();
+                            if(fp.isFailed()){ // found a zombie
+                                peers_in_room.remove(pa);
+                                must_update = true;
+                            }
+                        }
+                        if(must_update){
+                            if(peers_in_room.isEmpty()){
+                                FutureRemove fr = _dht.remove(Number160.createHash(_room_name)).start().awaitUninterruptibly();
+                                if(fr.isSuccess())
+                                    return createRoom(_room_name); // -> room already exist, all the peers crashed. now the dht is up-to-date
+                            }else{
+                                _dht.put(Number160.createHash(_room_name)).data(new Data(peers_in_room)).start().awaitUninterruptibly();
+                                return false; // -> room already exist, there is someone inside but some peer crashed. now the dht is up-to-date
+                            }
+                        }else
+                            return false; // -> room already exist, there is someone inside and all the peers were active
                     }
-
-
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
         }
 
@@ -125,7 +141,7 @@ public class AnonymousChatImpl implements AnonymousChat{
                 FutureGet futureGet = _dht.get(Number160.createHash(_room_name)).start();
                 futureGet.awaitUninterruptibly();
                 if (futureGet.isSuccess()) {
-                    if(futureGet.isEmpty() ) return false;
+                    if(futureGet.isEmpty() ) return false; // room doesn't exist
                     HashSet<PeerAddress> peers_in_room;
                     peers_in_room = (HashSet<PeerAddress>) futureGet.dataMap().values().iterator().next().object();
                     peers_in_room.add(_dht.peer().peerAddress());
@@ -135,6 +151,7 @@ public class AnonymousChatImpl implements AnonymousChat{
                 }
             }catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
         }
 
@@ -162,16 +179,14 @@ public class AnonymousChatImpl implements AnonymousChat{
                             }
                             return true;
                         }else{
-                            // Fix network error
+                            // Fix possible network error (peer in dht but not in local room_list)
                             peers_in_room.remove(_dht.peer().peerAddress());
                             _dht.put(Number160.createHash(_room_name)).data(new Data(peers_in_room)).start().awaitUninterruptibly();
                             if(peers_in_room.isEmpty()){
-                                return removeRoom(_room_name);
+                                removeRoom(_room_name);
                             }
                             return false;
                         }
-
-
                     }else{
                         room_list.remove(_room_name);
                         return false;
@@ -179,6 +194,7 @@ public class AnonymousChatImpl implements AnonymousChat{
                 }
             }catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
         }
 
@@ -201,28 +217,50 @@ public class AnonymousChatImpl implements AnonymousChat{
                     if (futureGet.isSuccess()) {
                         HashSet<PeerAddress> peers_in_room;
                         peers_in_room = (HashSet<PeerAddress>) futureGet.dataMap().values().iterator().next().object();
-                        for(PeerAddress peer:peers_in_room)
-                        {
+                        for(PeerAddress peer:peers_in_room){
                             FutureDirect futureDirect = _dht.peer().sendDirect(peer).object(_room_name+"\n"+_text_message).start();
                             futureDirect.awaitUninterruptibly();
                         }
-
                         return true;
                     }
                 }
-
             }catch (Exception e) {
                 e.printStackTrace();
+                return false;
             }
         }
-
         return false;
     }
 
     public boolean leaveNetwork(){
+        // Leave all the rooms
         for(String room: new ArrayList<>(room_list)) leaveRoom(room);
-        _dht.peer().announceShutdown().start().awaitUninterruptibly();
 
-        return true;
+        try{
+            // Update dns info
+            FutureGet futureGet = _dht.get(Number160.createHash("NETWORK_DNS")).start();
+            futureGet.awaitUninterruptibly();
+            if(futureGet.isSuccess()) {
+                if (!futureGet.isEmpty()) {
+                    // Peer check if he's in the DNS correctly
+                    HashSet<String> dns = (HashSet<String>) futureGet.dataMap().values().iterator().next().object();
+                    if (dns.contains("id:" + id)) {
+                        // Proced to remove the peer from the dns table
+                        dns.remove("id:" + id);
+                        FuturePut futurePut = _dht.put(Number160.createHash("NETWORK_DNS")).data(new Data(dns)).start().awaitUninterruptibly();
+                        if(futurePut.isFailed()){
+                            throw new DNSException("update");
+                        }
+                    }
+                }
+            }
+
+            // Peer shutdown
+            _dht.peer().announceShutdown().start().awaitUninterruptibly();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 }

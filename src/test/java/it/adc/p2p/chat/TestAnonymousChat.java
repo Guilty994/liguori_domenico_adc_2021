@@ -9,15 +9,25 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class TestAnonymousChat {
 
+
     @Test
     @DisplayName("Duplicate peers")
-    void testCase_DuplicatePeers() {
-        assertDoesNotThrow(()->new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 10000));
-        assertDoesNotThrow(()->new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 10000));
-        assertDoesNotThrow(()->new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 10000));
+    void testCase_DuplicatePeers() throws Exception {
+
+        AnonymousChatImpl peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 10000);
+        AnonymousChatImpl peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 10000);
+        AnonymousChatImpl peer2 = new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 10000);
 
         assertThrows(DuplicatePeer.class, ()->new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 10000));
         assertThrows(DuplicatePeer.class, ()->new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 10000));
+
+
+        AnonymousChatImpl[] peers = {peer0, peer1, peer2};
+
+        // Invoking network closing procedure
+        for (AnonymousChatImpl peer : peers) {
+            assertTrue(peer.leaveNetwork());
+        }
 
     }
 
@@ -40,6 +50,7 @@ public class TestAnonymousChat {
                 () -> assertThrows(FailedMasterPeerBootstrap.class,
                         () -> new AnonymousChatImpl(3, "1.1.1.1", new MessageListener(3), 9000))
         );
+
     }
 
 
