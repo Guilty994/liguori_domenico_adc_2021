@@ -21,7 +21,6 @@ public class TestAnonymousChat {
         assertThrows(DuplicatePeer.class, ()->new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 10000));
         assertThrows(DuplicatePeer.class, ()->new AnonymousChatImpl(2, "127.0.0.1", new MessageListener(2), 10000));
 
-
         AnonymousChatImpl[] peers = {peer0, peer1, peer2};
 
         // Invoking network closing procedure
@@ -77,7 +76,6 @@ public class TestAnonymousChat {
         for (AnonymousChatImpl peer : peers) {
             assertTrue(peer.leaveNetwork());
         }
-
 
     }
 

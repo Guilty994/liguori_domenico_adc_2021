@@ -15,7 +15,7 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-// TODO DNS refresh when peer leave the network and periodically mantain the dns
+// TODO periodically maintain the dns. (rooms don't need maintainment, they are auto maintained during the creation phase) (can use heartbeat)
 
 public class AnonymousChatImpl implements AnonymousChat{
 
