@@ -16,9 +16,7 @@ public class MessageListener {
         this.peer_addr = null;
     }
 
-    protected void setHash(Number160 peer_addr){
-        this.peer_addr = peer_addr;
-    }
+    protected void setHash(Number160 peer_addr){this.peer_addr = peer_addr;}
 
     public Object parseMessage(Object sender, Object _request) {
 

@@ -6,23 +6,25 @@ import it.adc.p2p.chat.exceptions.FailedMasterPeerBootstrap;
 import it.adc.p2p.chat.exceptions.NetworkError;
 import net.tomp2p.dht.*;
 import net.tomp2p.futures.*;
-import net.tomp2p.p2p.Peer;
-import net.tomp2p.p2p.PeerBuilder;
+import net.tomp2p.p2p.*;
 import net.tomp2p.peers.Number160;
 import net.tomp2p.peers.PeerAddress;
 import net.tomp2p.storage.Data;
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
-// TODO periodically maintain the dns. (rooms don't need maintainment, they are auto maintained during the creation phase) (can use heartbeat)
 
 public class AnonymousChatImpl implements AnonymousChat{
 
     final private Peer peer;
     final private PeerDHT _dht;
-    private int MASTER_PORT;
-    private Integer id;
+    final private int MASTER_PORT;
+    final private Integer id;
+
+    final private Heartbeat schedule;
+
 
     // List of the room this peer joined
     final private ArrayList<String> room_list = new ArrayList<>();
@@ -41,29 +43,32 @@ public class AnonymousChatImpl implements AnonymousChat{
 
         // If bootstrap is successful, start discover network
         if(fb.isSuccess()) {
-            FutureDiscover fd = peer.discover().peerAddress(fb.bootstrapTo().iterator().next()).start().awaitUninterruptibly();
 
-            // Check if a peer with same id already in the network
+            // discover network
+            peer.discover().peerAddress(fb.bootstrapTo().iterator().next()).start().awaitUninterruptibly();
+
+
+            // Check if a peer with same id already in the network by checking DNS
             FutureGet futureGet = _dht.get(Number160.createHash("NETWORK_DNS")).start();
             futureGet.awaitUninterruptibly();
 
             if(futureGet.isSuccess()){
                 if(futureGet.isEmpty()){
                     // Master node initialize the dns
-                    HashSet<String> dns = new HashSet<>();
-                    dns.add("id:"+_id);
+                    HashMap<Integer, PeerAddress> dns = new HashMap<>();
+                    dns.put(_id, peer.peerAddress());
                     FuturePut futurePut = _dht.put(Number160.createHash("NETWORK_DNS")).data(new Data(dns)).start().awaitUninterruptibly();
                     if(futurePut.isFailed())
                         throw new DNSException("creation");
                 }else{
                     // Normal peers check if they're already in the network
-                    HashSet<String> dns = (HashSet<String>) futureGet.dataMap().values().iterator().next().object();
-                    if(dns.contains("id:"+_id)){
+                    HashMap<Integer, PeerAddress> dns = (HashMap<Integer, PeerAddress>) futureGet.dataMap().values().iterator().next().object();
+                    if(dns.containsKey(_id)){
                         // Duplicate peer found
                         throw new DuplicatePeer(_id);
                     }else{
                         // The peer add itself in the network dns
-                        dns.add("id:"+_id);
+                        dns.put(_id, peer.peerAddress());
                         FuturePut futurePut = _dht.put(Number160.createHash("NETWORK_DNS")).data(new Data(dns)).start().awaitUninterruptibly();
                         if(futurePut.isFailed()){
                             throw new DNSException("update");
@@ -79,6 +84,13 @@ public class AnonymousChatImpl implements AnonymousChat{
         }
         // Update listener info
         _listener.setHash(peer.peerID());
+
+
+
+        // Periodically check the network for peers failure and restore consistency
+        schedule = new Heartbeat();
+        schedule.checkDNS(peer, _dht);
+
 
         //Wait for messages to be received
         peer.objectDataReply(_listener::parseMessage);
@@ -243,10 +255,10 @@ public class AnonymousChatImpl implements AnonymousChat{
             if(futureGet.isSuccess()) {
                 if (!futureGet.isEmpty()) {
                     // Peer check if he's in the DNS correctly
-                    HashSet<String> dns = (HashSet<String>) futureGet.dataMap().values().iterator().next().object();
-                    if (dns.contains("id:" + id)) {
-                        // Proced to remove the peer from the dns table
-                        dns.remove("id:" + id);
+                    HashMap<Integer, PeerAddress> dns = (HashMap<Integer, PeerAddress>) futureGet.dataMap().values().iterator().next().object();
+                    if (dns.containsKey(id)) {
+                        // Remove the peer from the dns table
+                        dns.remove(id);
                         FuturePut futurePut = _dht.put(Number160.createHash("NETWORK_DNS")).data(new Data(dns)).start().awaitUninterruptibly();
                         if(futurePut.isFailed()){
                             throw new DNSException("update");
@@ -254,6 +266,9 @@ public class AnonymousChatImpl implements AnonymousChat{
                     }
                 }
             }
+
+            // Stop the scheduled task -- there is no need to stop it in case of forced exit
+            schedule.stop();
 
             // Peer shutdown
             _dht.peer().announceShutdown().start().awaitUninterruptibly();

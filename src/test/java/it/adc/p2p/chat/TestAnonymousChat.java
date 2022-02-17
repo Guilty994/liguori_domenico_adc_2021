@@ -6,13 +6,13 @@ import org.junit.jupiter.api.*;
 import java.util.Arrays;
 import static org.junit.jupiter.api.Assertions.*;
 
-
 public class TestAnonymousChat {
-
 
     @Test
     @DisplayName("Duplicate peers")
     void testCase_DuplicatePeers() throws Exception {
+
+        System.out.print("[INFO] Running test case -> testCase_DuplicatePeers... ");
 
         AnonymousChatImpl peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 10000);
         AnonymousChatImpl peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 10000);
@@ -28,11 +28,15 @@ public class TestAnonymousChat {
             assertTrue(peer.leaveNetwork());
         }
 
+        System.out.println("Completed.");
+
     }
 
     @Test
     @DisplayName("Master bootstrapping")
-    void testCase_MasterBootstrapping() {
+    void testCase_MasterBootstrapping(){
+
+        System.out.print("[INFO] Running test case -> testCase_MasterBootstrapping... ");
 
         assertAll("Bootstrapping master to an invalid IP",
                 () -> assertThrows(FailedMasterPeerBootstrap.class,
@@ -50,6 +54,8 @@ public class TestAnonymousChat {
                         () -> new AnonymousChatImpl(3, "1.1.1.1", new MessageListener(3), 9000))
         );
 
+        System.out.println("Completed.");
+
     }
 
 
@@ -57,7 +63,7 @@ public class TestAnonymousChat {
     @DisplayName("Creation of room that doesn't exist yet")
     void testCase_CreateNonExistingRoom() throws Exception {
 
-
+        System.out.print("[INFO] Running test case -> testCase_CreateNonExistingRoom... ");
         // Generating peers
         AnonymousChatImpl peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 4000);
         AnonymousChatImpl peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 4000);
@@ -77,13 +83,15 @@ public class TestAnonymousChat {
             assertTrue(peer.leaveNetwork());
         }
 
+        System.out.println("Completed.");
+
     }
 
     @Test
     @DisplayName("Creation of rooms that already exist")
     void testCase_CreateExistingRoom() throws Exception {
 
-
+        System.out.print("[INFO] Running test case -> testCase_CreateExistingRoom... ");
         // Generating peers
         AnonymousChatImpl peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 5000);
         AnonymousChatImpl peer1 = new AnonymousChatImpl(1, "127.0.0.1", new MessageListener(1), 5000);
@@ -106,7 +114,7 @@ public class TestAnonymousChat {
             assertTrue(peer.leaveNetwork());
         }
 
-
+        System.out.println("Completed.");
     }
 
 
@@ -114,6 +122,8 @@ public class TestAnonymousChat {
     @DisplayName("Joining existing rooms and joining non-existing rooms")
     void testCase_JoinRoom() throws Exception {
 
+
+        System.out.print("[INFO] Running test case -> testCase_JoinRoom... ");
 
         // Generating peers
         AnonymousChatImpl peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 6000);
@@ -149,6 +159,8 @@ public class TestAnonymousChat {
             assertTrue(peer.leaveNetwork());
         }
 
+        System.out.println("Completed.");
+
 
     }
 
@@ -156,6 +168,8 @@ public class TestAnonymousChat {
     @Test
     @DisplayName("Message sending")
     void testCase_SendMessage() throws Exception {
+
+        System.out.print("[INFO] Running test case -> testCase_SendMessage... ");
 
 
         // Generating peers
@@ -200,12 +214,16 @@ public class TestAnonymousChat {
         for (AnonymousChatImpl peer : peers) {
             assertTrue(peer.leaveNetwork());
         }
+
+        System.out.println("Completed.");
     }
 
 
     @Test
     @DisplayName("Room leaving procedure")
     void testCase_LeaveRoom() throws Exception {
+
+        System.out.print("[INFO] Running test case -> testCase_LeaveRoom... ");
 
         // Generating peers
         AnonymousChatImpl peer0 = new AnonymousChatImpl(0, "127.0.0.1", new MessageListener(0), 8000);
@@ -246,6 +264,8 @@ public class TestAnonymousChat {
         for (AnonymousChatImpl peer : peers) {
             assertTrue(peer.leaveNetwork());
         }
+
+        System.out.println("Completed.");
 
     }
 }

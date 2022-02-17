@@ -2,7 +2,7 @@ package it.adc.p2p.chat;
 
 public class ShutDownProcedure extends Thread {
 
-    private AnonymousChatImpl peer;
+    final private AnonymousChatImpl peer;
 
     public ShutDownProcedure(AnonymousChatImpl peer) {
         this.peer = peer;
