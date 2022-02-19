@@ -156,6 +156,9 @@ public class StartChat {
             }
         } catch(CmdLineException clEx) {
             System.err.println("ERROR: Unable to parse command-line options: " + clEx);
+        } catch (Exception e){
+            e.printStackTrace();
+            System.exit(-1);
         }
     }
 

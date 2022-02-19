@@ -50,9 +50,7 @@
 
 This project is the implementation of an anonymous chat that runs over a P2P network, built through the support of the framework/library [TomP2P](https://tomp2p.net/), for the ADC class at the [Università degli Studi di Salerno](https://www.unisa.it/).
 
-The main requirement for this project were asynchronous and anonymous communication. We were able to achieve those requirements through the usage of the [publish/subscribe paradigm](https://www.pubnub.com/learn/glossary/what-is-publish-subscribe/), a well known paradigm in the asynchronous communication literature.
-
-
+The main requirement for this project were asynchronous and anonymous communication. We were able to achieve those requirements through the usage of the [publish/subscribe paradigm](https://www.pubnub.com/learn/glossary/what-is-publish-subscribe/), a well known paradigm in the asynchronous communication literature and [TomP2P](https://tomp2p.net/).
 
 Further information regarding this assignment can be found at the [ADC class page](https://spagnuolocarmine.github.io/adc.html).
 
@@ -60,22 +58,39 @@ Further information regarding this assignment can be found at the [ADC class pag
 
 ### Proposed solution
 
-TODOTODOTODOTODOTODOTODOTODO
+In the proposed solution each peer has a lifecycle based on 3 different stages: **Join**, **Interact** and **Leave**.
+
+#### Join
+
+
+
+#### Interact
+
+
+
+#### Leave
+
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Project structure
 
-The package `it.adc.p2p.chat` provides 3 Java **Classes** and 1 Java **Interface**:
+The package `it.adc.p2p.chat` provides 5 Java **Classes** and 1 Java **Interface**:
 
 * <**I**> _AnonymousChat_ Interface that define the publish/subscribe paradigm.
 * <**C**> _AnonymousChatImpl_ Implementation of _AnonymousChat_ that exploits TomP2P library, providing a basic API for anonymous chats. 
+* <**C**> _Heartbeat_ This class is used to spot crashed peers in the network. If any peer spot a crashed peer, it will immediately notify the others in order to update their local information. 
 * <**C**> _MessageListener_ The listener that is used by the peers to listen for incoming messages.
+* <**C**> _ShutDownProcedure_ This class define the operations to perform once the JVM exit or is terminated.
 * <**C**> _StartChat_ A class that use the provided API to start an example anonymous chat.
 
-The package `it.adc.p2p.chat.exceptions` provides 1 Java **Exception**:
+The package `it.adc.p2p.chat.exceptions` provides 4 Java **Exception**:
 
+* <**E**> _DNSException_ This exception is triggered when something went wrong during the peers DNS update/creation.
+* <**E**> _DuplicatePeer_ This exception is triggered when a peer try to join the network with an ID another peer already claimed.
 * <**E**> _FailedMasterPeerBootstrap_ This exception is triggered when an error occur during the bootstrap to the master peer.
+* <**E**> _NetworkError_ This exception is triggered when a peer wasn't able to contact the network.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -83,12 +98,13 @@ The package `it.adc.p2p.chat.exceptions` provides 1 Java **Exception**:
 
 A series of unit tests have been provided in the test package `it.adc.p2p.chat` to check out all the API functionalities.
 
-* _TestAnonymousChat::testCase_MasterBootstrapping_ TODOTODOTODOTODOTODOTODO
-* _TestAnonymousChat::testCase_CreateNonExistingRoom_
-* _TestAnonymousChat::testCase_CreateExistingRoom_
-* _TestAnonymousChat::testCase_JoinRoom_
-* _TestAnonymousChat::testCase_SendMessage_
-* _TestAnonymousChat::testCase_LeaveRoom_
+* _TestAnonymousChat::testCase_DuplicatePeers()_ This test checks the API behavior when there is multiple peers with same ID.
+* _TestAnonymousChat::testCase_MasterBootstrapping()_ This test checks different behavior of the API when a correct or incorrect bootstrap to the p2p network happen.
+* _TestAnonymousChat::testCase_CreateNonExistingRoom()_ This test checks the API behavior when a peer try to create a new room.
+* _TestAnonymousChat::testCase_CreateExistingRoom()_ This test checks the API behavior when a peer try to create a room that already exist.
+* _TestAnonymousChat::testCase_JoinRoom()_ This test checks the API behavior when a peer try to join a room that exist and a room that doesn't exist.
+* _TestAnonymousChat::testCase_SendMessage()_ This test checks the API behavior when a correct or incorrect message sending is performed.
+* _TestAnonymousChat::testCase_LeaveRoom()_ This test checks the API behavior when a peer try to leave a room he already joined, a room he never joined or a room that doesn't exist.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
