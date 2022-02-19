@@ -141,7 +141,7 @@ Check the official docker [get-started page](https://docs.docker.com/get-started
 
 ### Installation
 
-1. Download the Dockerfile locally
+1. Download the Dockerfile
    ```
    curl -OL https://raw.githubusercontent.com/Guilty994/liguori_domenico_adc_2021/master/Dockerfile
    ```
@@ -167,7 +167,7 @@ Check the official docker [get-started page](https://docs.docker.com/get-started
    docker ps
    docker inspect <container ID>
    ```
-3. Now you can start a new peers using the _@container_address_ as MASTERID and varying the unique _@peerid_ ∈ [1, +∞]
+3. Start a new peers using the _@container_address_ as MASTERID and varying the unique _@peerid_ ∈ [1, +∞]
     ```
    docker run --name PEER_[peer id] -e ID=@peerid -e MASTERIP="@container_address" -it anonchat
    ```
