@@ -58,7 +58,7 @@ Further information regarding this assignment can be found at the [ADC class pag
 
 ### Proposed solution
 
-In the proposed solution each peer has a lifecycle based on 3 different stages: **Join**, **Interact** and **Leave**.
+The lifecycle for each peer that wants to use the chat has been divided in 3 different stages: **Join**, **Interact** and **Leave**.
 
 #### Join
 
