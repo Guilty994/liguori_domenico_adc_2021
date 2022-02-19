@@ -80,16 +80,16 @@ Once the peer checked he's the only one with said ID, the table is updated and a
 Then the peer is going to start a crash detection mechanism.
 This FD (Failure Detector) is based on a simplified version of the [Gossipping Protocol](https://www.geeksforgeeks.org/the-gossip-protocol-in-cloud-computing/) which inquire a random number of network nodes at random intervals to update his local information. This was used to keep the DNS table always updated even if a user didn't perform the shutdown procedure correctly.
 
-After the FD is correctly set up the peer starts to listen for incoming messages.
+After the FD is correctly set up, the peer starts to listen for incoming messages.
 
 #### Interact
 
 Once a peer has been correctly announced into the P2P network, the user can interact with the API through the provided methods:
-* `createRoom(String _room_name)`
-* `joinRoom(String _room_name)`
-* `leaveRoom(String _room_name)`
-* `sendMessage(String _room_name, String _text_message)`
-* `leaveNetwork()`
+* `createRoom(String _room_name)`TODO
+* `joinRoom(String _room_name)`TODO
+* `leaveRoom(String _room_name)`TODO
+* `sendMessage(String _room_name, String _text_message)`TODO
+* `leaveNetwork()`TODO
 
 #### Leave
 
