@@ -72,7 +72,7 @@ For better explanation the lifecycle of a peer can be divided in 3 different sta
 
 To join the network and start chatting a new object `AnonymousChatImpl` must be instantiated.
 
-In the constructor the peer is created and booted on the network through the library function provided by TomP2P.
+In the constructor the peer is created and booted on the network through the library functions provided by TomP2P.
 
 Each peer is going to request the DNS table associated with the network and check if another active peer with the same ID is already in the network.
 Once the peer checked he's the only one with said ID, the table is updated and all the other peers in the network are notified.
@@ -103,7 +103,7 @@ The package `it.adc.p2p.chat` provides 5 Java **Classes** and 1 Java **Interface
 
 * `AnonymousChat` **Interface** that define the publish/subscribe paradigm.
 * `AnonymousChatImpl` **Class** that implements the _AnonymousChat_ interface, exploiting TomP2P library and providing a basic API for anonymous chats. 
-* `Heartbeat` **Class** used to implement an asynchronous task that periodically spot crashed peers in the network.
+* `PeerFailureDetector` **Class** used to implement an asynchronous task that periodically spot crashed peers in the network.
 * `MessageListener` **Class** that implements a listener used by the peers to listen for incoming messages.
 * `ShutDownProcedure` **Class** that define the operations to perform once the JVM exit or is terminated.
 * `StartChat` **Class** that use the provided API to start an example anonymous chat.
