@@ -104,13 +104,13 @@ The package `it.adc.p2p.chat.exceptions` provides 4 Java **Exception**:
 
 A series of unit tests have been provided in the test package `it.adc.p2p.chat` to check out all the API functionalities.
 
-* `TestAnonymousChat::testCase_DuplicatePeers()` This test checks the API behavior when there is multiple peers with same ID.
-* `TestAnonymousChat::testCase_MasterBootstrapping()` This test checks different behavior of the API when a correct or incorrect bootstrap to the p2p network happen.
-* `TestAnonymousChat::testCase_CreateNonExistingRoom()` This test checks the API behavior when a peer try to create a new room.
-* `TestAnonymousChat::testCase_CreateExistingRoom()` This test checks the API behavior when a peer try to create a room that already exist.
-* `TestAnonymousChat::testCase_JoinRoom()` This test checks the API behavior when a peer try to join a room that exist and a room that doesn't exist.
-* `TestAnonymousChat::testCase_SendMessage()` This test checks the API behavior when a correct or incorrect message sending is performed.
-* `TestAnonymousChat::testCase_LeaveRoom()` This test checks the API behavior when a peer try to leave a room he already joined, a room he never joined or a room that doesn't exist.
+* `TestAnonymousChat::testCase_DuplicatePeers()` **Test** that checks the API behavior when there is multiple peers with same ID.
+* `TestAnonymousChat::testCase_MasterBootstrapping()` **Test** that checks different behavior of the API when a correct or incorrect bootstrap to the p2p network happen.
+* `TestAnonymousChat::testCase_CreateNonExistingRoom()` **Test** that checks the API behavior when a peer try to create a new room.
+* `TestAnonymousChat::testCase_CreateExistingRoom()` **Test** that checks the API behavior when a peer try to create a room that already exist.
+* `TestAnonymousChat::testCase_JoinRoom()` **Test** that checks the API behavior when a peer try to join a room that exist and a room that doesn't exist.
+* `TestAnonymousChat::testCase_SendMessage()` **Test** that checks the API behavior when a correct or incorrect message sending is performed.
+* `TestAnonymousChat::testCase_LeaveRoom()` **Test** that checks the API behavior when a peer try to leave a room he already joined, a room he never joined or a room that doesn't exist.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
