@@ -27,7 +27,13 @@
     <li>
       <a href="#about-the-project">About this project</a>
       <ul>
-        <li><a href="#proposed-solution">Proposed solution</a></li>
+        <li><a href="#proposed-solution">Proposed solution</a>
+            <ul>
+                <li><a href="#join">Join</a>
+                <li><a href="#interact">Interact</a>
+                <li><a href="#leave">Leave</a>
+            </ul>
+        </li>
         <li><a href="#project-structure">Project Structure</a></li>
         <li><a href="#junit-tests">JUnit tests</a></li>
         <li><a href="#built-with">Built With</a></li>
@@ -62,15 +68,15 @@ The lifecycle for each peer that wants to use the chat has been divided in 3 dif
 
 #### Join
 
-
+TODO
 
 #### Interact
 
-
+TODO
 
 #### Leave
 
-
+TODO
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
