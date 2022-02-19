@@ -64,15 +64,32 @@ Further information regarding this assignment can be found at the [ADC class pag
 
 ### Proposed solution
 
-The lifecycle for each peer has been divided in 3 different stages: **Join**, **Interact** and **Leave**.
+The proposed implementation allow the user to start a new peer to join the network and interact with it through 4 main functionalities: Create room, Join room and Send message; an additional functionality has been provided to correctly announce the peer shutdown.
+
+For better explanation the lifecycle of a peer can be divided in 3 different stages: **Join**, **Interact** and **Leave**.
 
 #### Join
 
-TODO
+To join the network and start chatting a new object `AnonymousChatImpl` must be instantiated.
+
+In the constructor the peer is created and booted on the network through the library function provided by TomP2P.
+
+Each peer is going to request the DNS table associated with the network and check if another active peer with the same ID is already in the network.
+Once the peer checked he's the only one with said ID, the table is updated and all the other peers in the network are notified.
+
+Then the peer is going to start a crash detection mechanism.
+This FD (Failure Detector) is based on a simplified version of the [Gossipping Protocol](https://www.geeksforgeeks.org/the-gossip-protocol-in-cloud-computing/) which inquire a random number of network nodes at random intervals to update his local information. This was used to keep the DNS table always updated even if a user didn't perform the shutdown procedure correctly.
+
+After the FD is correctly set up the peer starts to listen for incoming messages.
 
 #### Interact
 
-TODO
+Once a peer has been correctly announced into the P2P network, the user can interact with the API through the provided methods:
+* `createRoom(String _room_name)`
+* `joinRoom(String _room_name)`
+* `leaveRoom(String _room_name)`
+* `sendMessage(String _room_name, String _text_message)`
+* `leaveNetwork()`
 
 #### Leave
 

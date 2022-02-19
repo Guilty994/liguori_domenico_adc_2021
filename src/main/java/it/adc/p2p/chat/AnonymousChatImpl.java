@@ -23,7 +23,7 @@ public class AnonymousChatImpl implements AnonymousChat{
     final private int MASTER_PORT;
     final private Integer id;
 
-    final private Heartbeat schedule;
+    final private PeerFailureDetector schedule;
 
 
     // List of the room this peer joined
@@ -88,8 +88,8 @@ public class AnonymousChatImpl implements AnonymousChat{
 
 
         // Periodically check the network for peers failure and restore consistency
-        schedule = new Heartbeat();
-        schedule.checkDNS(peer, _dht);
+        schedule = new PeerFailureDetector();
+        schedule.start(peer, _dht);
 
 
         //Wait for messages to be received

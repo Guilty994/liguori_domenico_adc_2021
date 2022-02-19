@@ -11,16 +11,20 @@ import net.tomp2p.peers.PeerAddress;
 import net.tomp2p.storage.Data;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-public class Heartbeat {
+
+// TODO ping random peers
+
+public class PeerFailureDetector {
     private final ScheduledExecutorService scheduler =
             Executors.newScheduledThreadPool(1);
 
-    public void checkDNS(Peer peer, PeerDHT _dht) {
+    public void start(Peer peer, PeerDHT _dht) {
         final Runnable heartbeat = () -> {
             boolean must_update = false;
             FutureGet futureGet = _dht.get(Number160.createHash("NETWORK_DNS")).start();
@@ -55,7 +59,9 @@ public class Heartbeat {
             }
         };
 
-        scheduler.scheduleAtFixedRate(heartbeat, 10, 30, SECONDS);
+        // Set delay between 10 and 30 seconds
+        int delay = 10+(new Random().nextInt(20));
+        scheduler.scheduleAtFixedRate(heartbeat, 10, delay, SECONDS);
 
     }
 
