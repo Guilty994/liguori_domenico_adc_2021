@@ -54,9 +54,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This project is the implementation of an anonymous chat that runs over a P2P network, built through the support of the framework/library [TomP2P](https://tomp2p.net/), for the ADC class at the [Università degli Studi di Salerno](https://www.unisa.it/).
+This project is the implementation of an anonymous chat that runs over a P2P network based on [this project](https://github.com/spagnuolocarmine/p2ppublishsubscribe) by Carmine Spagnuolo, for the ADC class at the [Università degli Studi di Salerno](https://www.unisa.it/).
 
-The main requirement for this project were asynchronous and anonymous communication. We were able to achieve those requirements through the usage of the [publish/subscribe paradigm](https://www.pubnub.com/learn/glossary/what-is-publish-subscribe/), a well known paradigm in the asynchronous communication literature and [TomP2P](https://tomp2p.net/).
+The main requirement for this work were asynchronous and anonymous communication. We were able to achieve those requirements through the usage of the [publish/subscribe paradigm](https://www.pubnub.com/learn/glossary/what-is-publish-subscribe/), a well known paradigm in the asynchronous communication literature, and the framework/library [TomP2P](https://tomp2p.net/).
 
 Further information regarding this assignment can be found at the [ADC class page](https://spagnuolocarmine.github.io/adc.html).
 
