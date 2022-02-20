@@ -9,7 +9,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://github.com/Guilty994/liguori_domenico_adc_2021">
     <img src="images/LOGO.png" alt="Logo" width="100" height="100">
   </a>
 
