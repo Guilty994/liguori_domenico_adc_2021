@@ -66,7 +66,7 @@ Further information regarding this assignment can be found at the [ADC class pag
 
 A user must start a new peer in order to join the network and interact with it.
 
-For better explanation the lifecycle of a peer can be divided in 3 different stages: **Join**, **Interact** and **Leave**.
+For better explanation, the lifecycle of a peer can be divided in 3 different stages: **Join**, **Interact** and **Leave**.
 
 #### Join
 
