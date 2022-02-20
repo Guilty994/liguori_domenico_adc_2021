@@ -64,7 +64,7 @@ Further information regarding this assignment can be found at the [ADC class pag
 
 ### Proposed solution
 
-The proposed implementation allow the user to start a new peer to join the network and interact with it through 4 main functionalities: Create room, Join room and Send message; an additional functionality has been provided to correctly announce the peer shutdown.
+A user must start a new peer in order to join the network and interact with it.
 
 For better explanation the lifecycle of a peer can be divided in 3 different stages: **Join**, **Interact** and **Leave**.
 
@@ -72,9 +72,9 @@ For better explanation the lifecycle of a peer can be divided in 3 different sta
 
 To join the network and start chatting a new object `AnonymousChatImpl` must be instantiated.
 
-In the constructor the peer is created and booted on the network through the library functions provided by TomP2P.
+In the constructor, the peer is created and booted on the p2p network through the library functions provided by TomP2P.
 
-Each peer is going to request the DNS table associated with the network and check if another active peer with the same ID is already in the network.
+Each peer is going to request a DNS table, where peers address and id are stored, and check if another active peer with the same ID is already in the network.
 Once the peer checked he's the only one with said ID, the table is updated and all the other peers in the network are notified.
 
 Then the peer is going to start a crash detection mechanism.
@@ -84,17 +84,17 @@ After the FD is correctly set up, the peer starts to listen for incoming message
 
 #### Interact
 
-Once a peer has been correctly announced into the p2p network, the user can interact with the API through the provided methods:
-* `createRoom(String _room_name)` Check if a room with the same name already exist, if it doesn't create it and set the current peer as room member. If the room exist, checks first if at least 1 peer is still alive. 
-If all the peers inside the room are dead, delete the room and start the create procedure again.
-* `joinRoom(String _room_name)` Check if a room with the provided name exist and join it.
-* `leaveRoom(String _room_name)` Check if a room with the provided name exist and the current peer is inside it. Then remove the peer from the room and if it's empty, delete it.
-* `sendMessage(String _room_name, String _text_message)` Send a message to all the peers in the room.
+Once a peer has been correctly booted into the p2p network, the user can interact with the API through the provided methods:
+* `createRoom(String _room_name)` Check if a room with the same name already exist, if it doesn't create it and set the current peer as room member. If the room exist, checks if at least 1 peer is still active. 
+If all the peers inside the room are crashed, delete the room, notify the network about the changes and start the create procedure again.
+* `joinRoom(String _room_name)` Check if a room with the provided name exist and if so join it.
+* `leaveRoom(String _room_name)` Check if a room with the provided name exist and the current peer is inside it. If so, remove the peer from the room and if it's empty, delete it.
+* `sendMessage(String _room_name, String _text_message)` Check if the room exist and the peer joined it. If so, send a message to all the peers in the room.
 
 #### Leave
 
-A peer that wants to leave the network, can invoke the method `leaveNetwork()`, which will update the DHT information, remove the peer from any room he was in and announce the peer shutdown on the network.
-A support class, `ShutDownProcedure`, has also been provided to the user in order to be called by a [Java Shutdown Hook](https://docs.oracle.com/javase/8/docs/technotes/guides/lang/hook-design.html).
+A peer that wants to leave the network, can invoke the method `leaveNetwork()`. This will update the DNS information, remove the peer from any room he was in and announce the peer shutdown on the network allowing the DHT to update properly.
+A support class, `ShutDownProcedure` has also been provided in order to be called by a [Java Shutdown Hook](https://docs.oracle.com/javase/8/docs/technotes/guides/lang/hook-design.html) as it has been done on the example application.
 
 However, those operations are not required, they just relieves some stress on the p2p network, the fault detector will eventually keep the network consistent ([eventual consistency](https://en.wikipedia.org/wiki/Eventual_consistency)). 
 
