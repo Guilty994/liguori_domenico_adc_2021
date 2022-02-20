@@ -54,7 +54,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This project is the implementation of an anonymous chat that runs over a P2P network based on the [example project](https://github.com/spagnuolocarmine/p2ppublishsubscribe) by [Carmine Spagnuolo](https://github.com/spagnuolocarmine) for the ADC class at the [Università degli Studi di Salerno](https://www.unisa.it/).
+This project is the implementation of an anonymous chat that runs over a p2p network based on the [example project](https://github.com/spagnuolocarmine/p2ppublishsubscribe) by [Carmine Spagnuolo](https://github.com/spagnuolocarmine) for the ADC class at the [Università degli Studi di Salerno](https://www.unisa.it/).
 
 The main requirement for this work were asynchronous and anonymous communication. We were able to achieve those requirements through the usage of the [publish/subscribe paradigm](https://www.pubnub.com/learn/glossary/what-is-publish-subscribe/), a well known paradigm in the asynchronous communication literature, and the framework/library [TomP2P](https://tomp2p.net/).
 
@@ -84,16 +84,19 @@ After the FD is correctly set up, the peer starts to listen for incoming message
 
 #### Interact
 
-Once a peer has been correctly announced into the P2P network, the user can interact with the API through the provided methods:
-* `createRoom(String _room_name)`TODO
-* `joinRoom(String _room_name)`TODO
-* `leaveRoom(String _room_name)`TODO
-* `sendMessage(String _room_name, String _text_message)`TODO
-* `leaveNetwork()`TODO
+Once a peer has been correctly announced into the p2p network, the user can interact with the API through the provided methods:
+* `createRoom(String _room_name)` Check if a room with the same name already exist, if it doesn't create it and set the current peer as room member. If the room exist, checks first if at least 1 peer is still alive. 
+If all the peers inside the room are dead, delete the room and start the create procedure again.
+* `joinRoom(String _room_name)` Check if a room with the provided name exist and join it.
+* `leaveRoom(String _room_name)` Check if a room with the provided name exist and the current peer is inside it. Then remove the peer from the room and if it's empty, delete it.
+* `sendMessage(String _room_name, String _text_message)` Send a message to all the peers in the room.
 
 #### Leave
 
-TODO
+A peer that wants to leave the network, can invoke the method `leaveNetwork()`, which will update the DHT information, remove the peer from any room he was in and announce the peer shutdown on the network.
+A support class, `ShutDownProcedure`, has also been provided to the user in order to be called by a [Java Shutdown Hook](https://docs.oracle.com/javase/8/docs/technotes/guides/lang/hook-design.html).
+
+However, those operations are not required, they just relieves some stress on the p2p network, the fault detector will eventually keep the network consistent ([eventual consistency](https://en.wikipedia.org/wiki/Eventual_consistency)). 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
